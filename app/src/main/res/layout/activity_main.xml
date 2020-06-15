@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/price_text_bold"
+    tools:context=".MainActivity">
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:src="@drawable/splash_icon"/>
+    <ImageView
+        android:id="@+id/online_class"
+        android:layout_width="@dimen/_260sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:src="@drawable/online_classes"
+        android:layout_marginTop="@dimen/_15sdp"/>
+    <ImageView
+        android:id="@+id/venue_class"
+        android:layout_width="@dimen/_260sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:src="@drawable/venue_classes"/>
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="@dimen/_260sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:src="@drawable/class_information"/>
+
+</LinearLayout>

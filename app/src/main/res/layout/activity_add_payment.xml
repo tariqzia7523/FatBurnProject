@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/price_text_bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <EditText
+        android:id="@+id/person_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_75sdp"
+        android:hint="Enter your name"
+        android:gravity="center|left"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_7sdp"
+        android:background="@drawable/rectangle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <com.stripe.android.view.CardMultilineWidget
+        android:id="@+id/cardInputWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_name"/>
+    <Button
+        android:id="@+id/payButton"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/_12sdp"
+        android:background="@drawable/bar"
+        android:layout_below="@+id/cardInputWidget"
+        android:text="Pay"/>
+
+</RelativeLayout>
