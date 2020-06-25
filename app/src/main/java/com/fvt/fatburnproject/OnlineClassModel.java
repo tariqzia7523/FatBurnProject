@@ -4,19 +4,10 @@ import java.io.Serializable;
 
 public class OnlineClassModel implements Serializable {
     String id;
-    String title;
-    String day;
-    String time;
     String price;
+    String title;
     boolean checked;
 
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
 
     public boolean isChecked() {
         return checked;
@@ -37,22 +28,6 @@ public class OnlineClassModel implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public String getPrice() {
         return price;
@@ -60,5 +35,13 @@ public class OnlineClassModel implements Serializable {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

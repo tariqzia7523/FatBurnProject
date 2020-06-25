@@ -95,21 +95,34 @@
     <TextView
         android:id="@+id/total_text"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/bar"
+        android:background="@drawable/text_bg"
         android:text="total Text"
-        android:textColor="@color/price_text_bold"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_12sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center" />
-    <ImageView
+    <Button
         android:id="@+id/pay_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_60sdp"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/pay_btn"
+        android:background="@drawable/bar"
+        android:text="pay"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/price_text_bold"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"/>
+    <ImageView
+        android:id="@+id/pay_with_paypal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/paypal_btn"
         android:layout_marginLeft="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"/>
 

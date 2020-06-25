@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/price_text_bold"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="10dp">
     <EditText
         android:id="@+id/person_name"
@@ -14,8 +15,17 @@
         android:paddingLeft="@dimen/_15sdp"
         android:paddingBottom="@dimen/_7sdp"
         android:background="@drawable/rectangle"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:inputType="textPersonName"/>
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_75sdp"
+        android:hint="Enter phone Number"
+        android:gravity="center|left"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_7sdp"
+        android:background="@drawable/rectangle"
+        android:inputType="phone"/>
     <com.stripe.android.view.CardMultilineWidget
         android:id="@+id/cardInputWidget"
         android:layout_width="match_parent"
@@ -33,4 +43,4 @@
         android:layout_below="@+id/cardInputWidget"
         android:text="Pay"/>
 
-</RelativeLayout>
+</LinearLayout>

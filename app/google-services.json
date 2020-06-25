@@ -42,6 +42,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117870042734:android:bb07e39243620961c6507f",
+        "android_client_info": {
+          "package_name": "com.fvt.fatburnproject.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117870042734-pk0odgds1ve4i5qcd05aoaktagdj668c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgtDWYPtQUx6yRRu5lLmZII0Cr-tqCV-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117870042734-pk0odgds1ve4i5qcd05aoaktagdj668c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

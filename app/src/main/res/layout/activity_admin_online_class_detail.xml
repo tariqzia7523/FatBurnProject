@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/price_text_bold">
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="17dp"
+            android:layout_height="13dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:text="Class Details"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:textSize="@dimen/_12sdp"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header_layout"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/_10sdp">
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Class Title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_15sdp"/>
+        <TextView
+            android:id="@+id/tile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10sdp"
+            android:maxLines="1"
+            android:layout_marginLeft="@dimen/_15sdp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Class Timing"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_15sdp"/>
+        <TextView
+            android:id="@+id/class_timing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="class timing"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10sdp"
+            android:maxLines="1"
+            android:layout_marginLeft="@dimen/_15sdp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Class Days"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_15sdp"/>
+        <TextView
+            android:id="@+id/class_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="job days"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10sdp"
+            android:maxLines="2"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"/>
+        <TextView
+            android:id="@+id/seats_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available Seats"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_15sdp"/>
+        <TextView
+            android:id="@+id/seats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="job days"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10sdp"
+            android:maxLines="2"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"/>
+
+        <TextView
+            android:id="@+id/date_pick"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:text="Joined Students"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12sdp"
+            android:gravity="center" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/student_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_15sdp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -6,10 +6,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InformationActivity"></activity>
+        <activity android:name=".FAQUserDetailActivity"></activity>
+        <activity android:name=".UserFAQActivity" />
+        <activity android:name=".AdminFAQActivityDetail" />
+        <activity android:name=".AdminFAQActivity" />
+        <activity android:name=".AdminAddAboutActivity" />
+        <activity android:name=".AdminAddNewActivity" />
+        <activity
+            android:name=".AdminAddClassActivity"
+            android:windowSoftInputMode="stateVisible" />
+        <activity android:name=".AdminVeneuClassDetailActivity" />
+        <activity android:name=".AdminOnlineClassDetailActivity" />
+        <activity android:name=".AdminMainActivity" />
+        <activity android:name=".InformationActivity" />
         <activity android:name=".VeneClassDetailActivity" />
         <activity android:name=".VeneuActivity" />
         <activity android:name=".OnlineActivity" />

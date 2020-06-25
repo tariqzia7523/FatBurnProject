@@ -5,20 +5,36 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_toLeftOf="@+id/select_image"
         android:background="@drawable/rectangle"
         android:paddingLeft="@dimen/_16sdp"
         android:gravity="center"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="asdasd"
+            android:text=""
             android:gravity="center|left"
             android:textColor="@color/black"
-            android:layout_marginBottom="@dimen/_10sdp"/>
+            android:layout_marginBottom="@dimen/_5sdp"/>
+        <TextView
+            android:id="@+id/fbx_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center|left"
+            android:textColor="@color/black"
+            android:layout_marginBottom="@dimen/_5sdp"/>
+        <TextView
+            android:id="@+id/wbx_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center|left"
+            android:textColor="@color/black"
+            android:layout_marginBottom="@dimen/_5sdp"/>
 
     </LinearLayout>
 

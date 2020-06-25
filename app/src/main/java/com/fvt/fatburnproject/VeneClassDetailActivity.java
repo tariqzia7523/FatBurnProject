@@ -8,8 +8,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.PaymentIntentResult;
@@ -36,6 +43,7 @@ import com.stripe.android.view.CardMultilineWidget;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,23 +62,33 @@ public class VeneClassDetailActivity extends AppCompatActivity {
     private String publishableKey;
     String personName;
     String TAG;
+    String android_id;
     DatabaseReference myRefBooked;
+    private static final String PAYPAL_KEY = "ASwRlhlkFphl3dvNIF8ADgmYu1IkcqIawzklRbALqu0GpT3GFXFkoEND6Q9ptrrvjBzAvjMVY8Mi5qvi";
+    private static final int REQUEST_CODE_PAYMENT = 1;
+    private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
+    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
+    private static PayPalConfiguration config;
+    PayPalPayment thingstoBuy;
+    PayUserModel payUserModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vene_class_detail);
         getSupportActionBar().hide();
+        android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         progressDialog =new ProgressDialog(VeneClassDetailActivity.this);
         progressDialog.setMessage("Please Wait");
         myRefBooked = FirebaseDatabase.getInstance().getReference("Classes").child("Booked").child("VeneuClasses");
 
         TAG="***Detail";
-        //        secretKey=StripsIDsClass.getSecretEKey();
-        secretKey="sk_test_t2qvlU7H89Zpv06cvs9CSGxf00QK7CthR0";
-//        publishableKey=StripsIDsClass.getPubliserKey();
-        publishableKey="pk_test_hUE52VSBGt7oUf7AORrcPRpD0024H5exOY";
+        secretKey=StripsIDsClass.getSecretEKey();
+//        secretKey="sk_test_t2qvlU7H89Zpv06cvs9CSGxf00QK7CthR0";
+        publishableKey=StripsIDsClass.getPubliserKey();
+//        publishableKey="pk_test_hUE52VSBGt7oUf7AORrcPRpD0024H5exOY";
 //        PaymentConfiguration.init(getApplicationContext(), StripsIDsClass.getPubliserKey());
-        PaymentConfiguration.init(getApplicationContext(), "pk_test_hUE52VSBGt7oUf7AORrcPRpD0024H5exOY");
+        PaymentConfiguration.init(getApplicationContext(), publishableKey);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         totalText=findViewById(R.id.total_text);
@@ -130,20 +148,99 @@ public class VeneClassDetailActivity extends AppCompatActivity {
             }
         });
 
-    }
+        findViewById(R.id.pay_with_paypal).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(totalPrice>0)
+//                    makePayment();
+                    paymentpaypalname();
+                else
+                    Toast.makeText(getApplicationContext(),"Please select any type",Toast.LENGTH_LONG).show();
 
+            }
+        });
+        congifPaypal();
+
+    }
+    public int  paymentpaypalname() {
+        Log.e(TAG,"payment called");
+//        Context c = getApplicationContext();
+//        LinearLayout layout = new LinearLayout(c);
+//        layout.setBackgroundColor(getResources().getColor(R.color.transbackground));
+//        layout.setOrientation(LinearLayout.VERTICAL);
+//        layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        AlertDialog.Builder al = new AlertDialog.Builder(VeneClassDetailActivity.this);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view;
+//        view = inflater.inflate(R.layout.payment_layout, null);
+        view = inflater.inflate(R.layout.activity_add_payment, null);
+        al.setView(view);
+        final AlertDialog value = al.create();
+        value.setCancelable(false);
+        //final ListView lv=new ListView(this);
+        cardInputWidget = view.findViewById(R.id.cardInputWidget);
+        cardInputWidget.setVisibility(View.GONE);
+        final EditText perName = view.findViewById(R.id.person_name);
+        final EditText phoneNumber = view.findViewById(R.id.phone_number);
+        Button payButton = view.findViewById(R.id.payButton);
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!perName.getText().toString().isEmpty()
+                    && !phoneNumber.getText().toString().isEmpty()) {
+                    payUserModel=new PayUserModel();
+                    personName=perName.getText().toString()+":_:"+android_id;
+                    payUserModel.setName(personName);
+                    payUserModel.setPhoneNumber(phoneNumber.getText().toString());
+                    veneuModel.setPersonName(perName.getText().toString());
+                    veneuModel.setPhoneNumber(phoneNumber.getText().toString());
+                    progressDialog.show();
+                    makePayment();
+                    value.dismiss();
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"Enter name",Toast.LENGTH_LONG).show();
+
+                Log.e(TAG,"Funtion called");
+            }
+        });
+
+        value.show();
+        value.setCancelable(true);
+        return 0;
+    }
+    private void congifPaypal() {
+        config = new PayPalConfiguration()
+                .environment(CONFIG_ENVIRONMENT)
+                .clientId(PAYPAL_KEY)
+                .merchantName("Paypal Login")
+                .merchantPrivacyPolicyUri(Uri.parse("https:www.example.com/privacy"))
+                .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
+    }
+    private void makePayment() {
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startService(intent);
+        //******************* hard coded amount ************************
+        thingstoBuy = new PayPalPayment(new BigDecimal(String.valueOf(totalPrice+"")), "GBP", "Payment", PayPalPayment.PAYMENT_INTENT_ORDER);
+//        thingstoBuy = new PayPalPayment(new BigDecimal(String.valueOf("0.1")), "GBP", "Payment", PayPalPayment.PAYMENT_INTENT_ORDER);
+        Intent paymentIntent = new Intent(this, PaymentActivity.class);
+        paymentIntent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingstoBuy);
+        paymentIntent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startActivityForResult(paymentIntent, REQUEST_CODE_PAYMENT);
+    }
 
     public void getSum(){
         if(fbxSelected && wbxSelected){
-            totalText.setText("The total price is $5.50");
+            totalText.setText("The total price is £5.50");
             totalPrice=5.50;
         }
         if(fbxSelected && !wbxSelected){
-            totalText.setText("The total price is $3.50");
+            totalText.setText("The total price is £3.50");
             totalPrice=3.50;
         }
         if(!fbxSelected && wbxSelected){
-            totalText.setText("The total price is $2");
+            totalText.setText("The total price is £2");
             totalPrice=2;
         }
         if(!fbxSelected && !wbxSelected){
@@ -171,13 +268,20 @@ public class VeneClassDetailActivity extends AppCompatActivity {
         //final ListView lv=new ListView(this);
         cardInputWidget = view.findViewById(R.id.cardInputWidget);
         final EditText perName = view.findViewById(R.id.person_name);
+        final EditText phoneNumber = view.findViewById(R.id.phone_number);
         Button payButton = view.findViewById(R.id.payButton);
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cardInputWidget.getCard().validateCard() && !perName.getText().toString().isEmpty()) {
+                if(cardInputWidget.getCard().validateCard() && !perName.getText().toString().isEmpty()
+                        && !phoneNumber.getText().toString().isEmpty()) {
 //                    value.dismiss();
-                    personName=perName.getText().toString();
+                    payUserModel=new PayUserModel();
+                    personName=perName.getText().toString()+":_:"+android_id;
+                    payUserModel.setName(personName);
+                    payUserModel.setPhoneNumber(phoneNumber.getText().toString());
+                    veneuModel.setPersonName(perName.getText().toString());
+                    veneuModel.setPhoneNumber(phoneNumber.getText().toString());
                     progressDialog.show();
                     value.dismiss();
                     paymentCall(price);
@@ -229,9 +333,34 @@ public class VeneClassDetailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE_PAYMENT){
+            if(resultCode == RESULT_OK) {
+                PaymentConfirmation paymentConfirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if(paymentConfirmation != null) {
+                    try {
+                        Log.e("paypalPayment", "" + paymentConfirmation.toJSONObject().toString(4));
+                        veneuModel.setPaymentId(paymentConfirmation.getProofOfPayment().getPaymentId());
+                        veneuModel.setTransectionId(paymentConfirmation.getProofOfPayment().getTransactionId());
+                        updateBookedTable();
+                    }
+                    catch(Exception e) {
+                        Log.e("paypalPayment", "Catch: " + e.getLocalizedMessage());
+                        e.printStackTrace();
+                    }
+                }
+            } else if(resultCode == RESULT_CANCELED) {
+//                Log.e("paypalPayment", "Payment Cancelled");
+//                Toast.makeText(getApplicationContext(),"Payment canceled",Toast.LENGTH_LONG).show();
+            }
+            else if(resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+//                Toast.makeText(getApplicationContext(),"Payment INVALID",Toast.LENGTH_LONG).show();
+            }
+        }else{
+            stripe.onPaymentResult(requestCode, data, new PaymentResultCallback(VeneClassDetailActivity.this));
+        }
 
         // Handle the result of stripe.confirmPayment
-        stripe.onPaymentResult(requestCode, data, new PaymentResultCallback(VeneClassDetailActivity.this));
+//        stripe.onPaymentResult(requestCode, data, new PaymentResultCallback(VeneClassDetailActivity.this));
     }
 
     private final class PaymentResultCallback
@@ -262,6 +391,8 @@ public class VeneClassDetailActivity extends AppCompatActivity {
                         //add order to database
                         //succsess a gai
                         Log.e(TAG,"amount paid");
+                        veneuModel.setTransectionId(jsonObject.getString("id"));
+                        veneuModel.setPaymentId(jsonObject.getString("created"));
                         Toast.makeText(getApplicationContext(),"amount paid",Toast.LENGTH_LONG).show();
                         updateBookedTable();
 
@@ -296,21 +427,24 @@ public class VeneClassDetailActivity extends AppCompatActivity {
     }
 
     public void updateBookedTable(){
-        myRefBooked.child(personName).child(veneuModel.getClassid()).setValue(veneuModel);
+        myRefBooked.child(veneuModel.getVenue()).child(personName).setValue(veneuModel);
         progressDialog.dismiss();
         aleartDialog();
 
     }
     public void aleartDialog(){
+        String text="Transaction id is "+veneuModel.getTransectionId()+"\nPayment id is : "+veneuModel.getPaymentId()+"\n\nPlease take screen shot and save it for further use if required";
         AlertDialog alertDialog = new AlertDialog.Builder(VeneClassDetailActivity.this).create();
         alertDialog.setTitle("Payment Alert");
-        alertDialog.setMessage("Transection is completed ");
+        alertDialog.setMessage(text);
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+//                Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         alertDialog.show();
     }
