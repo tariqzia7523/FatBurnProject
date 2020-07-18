@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OnlineActivity extends AppCompatActivity {
-    DatabaseReference myRef,myRefBooked;
+    DatabaseReference myRef,myRefBooked,myRefHistory;
     ArrayList<OnlineClassModel> list;
     RecyclerView recyclerView;
     MyAdapter myAdapter;
@@ -105,6 +105,7 @@ public class OnlineActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(OnlineActivity.this));
         myAdapter=new MyAdapter(getApplicationContext(),OnlineActivity.this,list);
         recyclerView.setAdapter(myAdapter);
+        myRefHistory = FirebaseDatabase.getInstance().getReference("Classes").child("History");
         myRefBooked = FirebaseDatabase.getInstance().getReference("Classes").child("Booked").child("OnlineClasses");
         myRef = FirebaseDatabase.getInstance().getReference("Classes").child("OnlineClasses");
         progressDialog.show();
@@ -147,7 +148,7 @@ public class OnlineActivity extends AppCompatActivity {
                     Log.e(TAG,"val  for"+ i+" is "+list.get(i).isChecked());
                     if(list.get(i).isChecked()){
                         String p=list.get(i).getPrice();
-                        p=p.substring(0,p.length()-1);
+                        p=p.substring(1,p.length());
                         int price=Integer.parseInt(p);
                         sum=sum+price;
                     }else{
@@ -172,7 +173,7 @@ public class OnlineActivity extends AppCompatActivity {
                     Log.e(TAG,"val  for"+ i+" is "+list.get(i).isChecked());
                     if(list.get(i).isChecked()){
                         String p=list.get(i).getPrice();
-                        p=p.substring(0,p.length()-1);
+                        p=p.substring(1,p.length());
                         int price=Integer.parseInt(p);
                         sum=sum+price;
                     }else{
@@ -501,7 +502,7 @@ public class OnlineActivity extends AppCompatActivity {
                             Log.e(TAG,"val  for"+ i+" is "+list.get(i).isChecked());
                             if(list.get(i).isChecked()){
                                 String p=list.get(i).getPrice();
-                                p=p.substring(0,p.length()-1);
+                                p=p.substring(1,p.length());
                                 int price=Integer.parseInt(p);
                                 sum=sum+price;
                             }else{
@@ -509,7 +510,7 @@ public class OnlineActivity extends AppCompatActivity {
                             }
                         }
                         if(sum!=0)
-                         payButton.setText("Pay : "+sum+"£");
+                         payButton.setText("Pay : "+"£"+sum);
                         else
                             payButton.setText("Pay ");
                         notifyDataSetChanged();
@@ -533,6 +534,13 @@ public class OnlineActivity extends AppCompatActivity {
     }
 
     public void aleartDialog(){
+        String[] separated = personName.split(":_:");
+        HistoryModel historyModel=new HistoryModel();
+        historyModel.setName(separated[0]);
+        historyModel.setPaymentId(payUserModel.getPaymentID());
+        historyModel.setTransectoionid(payUserModel.getTransectionid());
+        myRefHistory.push().setValue(historyModel);
+
         String text="Transaction id is "+payUserModel.getTransectionid()+"\nPayment id is : "+payUserModel.getPaymentID()+"\n\nPlease take screen shot and save it for further use if required";
         AlertDialog alertDialog = new AlertDialog.Builder(OnlineActivity.this).create();
         alertDialog.setTitle("Payment Alert");

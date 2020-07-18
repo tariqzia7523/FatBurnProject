@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fvt.fatburnproject.AdminEditPayActivty">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FBX"
+        android:textSize="@dimen/_12sdp"
+        android:layout_margin="@dimen/_10sdp"/>
+    <EditText
+        android:id="@+id/fbx_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:hint="Enter Fbx price"
+        android:inputType="numberDecimal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WTB"
+        android:textSize="@dimen/_12sdp"
+        android:layout_margin="@dimen/_10sdp"/>
+    <EditText
+        android:id="@+id/wbx_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:hint="Enter WTB price"
+        android:inputType="numberDecimal"/>
+    <Button
+        android:id="@+id/add_price"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_above="@+id/pay_with_paypal"
+        android:background="@drawable/bar"
+        android:text="Update"
+        android:textColor="@color/price_text_bold"
+        android:textSize="@dimen/_12sdp"/>
+
+</LinearLayout>

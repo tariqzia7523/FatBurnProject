@@ -3,6 +3,7 @@ package com.fvt.fatburnproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,13 +63,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class VeneuActivity extends AppCompatActivity {
-    DatabaseReference myRef,myRefPrice,myRefBooked;
+    DatabaseReference myRef,myRefPrice,myRefBooked,myRefHistory,myRefCart,myRefDiscount;
     ArrayList<String> venuesNames;
     ArrayList<VeneuModel> classTimings;
     Spinner spinner;
@@ -76,12 +78,12 @@ public class VeneuActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressDialog progressDialog;
     String TAG;
-    TypeModel typeModel;
-    CheckBox fbx,wbx;
+//    CheckBox fbx,wbx;
     String fbxPrice,wbxPrice;
     TextView totalText;
     double totalPrice;
-    VeneuModel veneuModel;
+    String paymentId,transectionId,phone;
+//    VeneuModel veneuModel;
     private static final String PAYPAL_KEY = "ASwRlhlkFphl3dvNIF8ADgmYu1IkcqIawzklRbALqu0GpT3GFXFkoEND6Q9ptrrvjBzAvjMVY8Mi5qvi";
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
@@ -94,18 +96,19 @@ public class VeneuActivity extends AppCompatActivity {
     private String secretKey ;
     private String publishableKey;
     String android_id,personName;
+    ArrayList<VeneuModel> veneuModels;
+    TextView discountPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veneu);
-
+        veneuModels=new ArrayList<>();
         getSupportActionBar().hide();
         android_id = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         progressDialog=new ProgressDialog(VeneuActivity.this);
         progressDialog.setMessage("Please Wait...");
         TAG="***veneu";
-        typeModel=null;
         secretKey=StripsIDsClass.getSecretEKey();
 //        secretKey="sk_test_t2qvlU7H89Zpv06cvs9CSGxf00QK7CthR0";
         publishableKey=StripsIDsClass.getPubliserKey();
@@ -114,9 +117,15 @@ public class VeneuActivity extends AppCompatActivity {
         PaymentConfiguration.init(getApplicationContext(), publishableKey);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        fbx=findViewById(R.id.fbx);
-        wbx=findViewById(R.id.wbx);
+        discountPrice=findViewById(R.id.discount_price);
         totalText=findViewById(R.id.total_text);
+        totalText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(VeneuActivity.this,MyCartClient.class).putExtra("flag",1));
+                finish();
+            }
+        });
         Log.e(TAG,"vence activity called");
         spinner=findViewById(R.id.spinner);
         venuesNames=new ArrayList<>();
@@ -126,6 +135,39 @@ public class VeneuActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(VeneuActivity.this));
         myAdapter=new MyAdapter(getApplicationContext(),VeneuActivity.this,classTimings);
         recyclerView.setAdapter(myAdapter);
+        myRefDiscount = FirebaseDatabase.getInstance().getReference("Classes").child("Discount");
+        myRefDiscount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String discount="";
+                boolean discountCheck=false;
+                try{
+                    discountCheck=dataSnapshot.child("discountCheck").getValue(Boolean.class);
+                }catch (Exception c){
+                    c.printStackTrace();
+                }
+                try{
+                    discount=dataSnapshot.child("discount").getValue(String.class);
+                }catch (Exception c){
+                    c.printStackTrace();
+                }
+
+                if(discountCheck){
+                    discountPrice.setVisibility(View.VISIBLE);
+                    discountPrice.setText(discount+" discount with loyal10");
+                }else{
+                    discountPrice.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        myRefCart = FirebaseDatabase.getInstance().getReference("Classes").child("Cart");
+        myRefHistory = FirebaseDatabase.getInstance().getReference("Classes").child("History");
         myRefBooked = FirebaseDatabase.getInstance().getReference("Classes").child("Booked").child("VeneuClasses");
 
         myRefPrice = FirebaseDatabase.getInstance().getReference("Classes").child("Prices");
@@ -163,10 +205,7 @@ public class VeneuActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try{
-                    fbx.setChecked(false);
-                    wbx.setChecked(false);
-                    fbx.setVisibility(View.GONE);
-                    wbx.setVisibility(View.GONE);
+                    venuesNames.clear();
                     for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                         venuesNames.add(dataSnapshot1.getKey());
                     }
@@ -182,33 +221,40 @@ public class VeneuActivity extends AppCompatActivity {
                             veneuModel.setVenue(venuesNames.get(0));
                             veneuModel.setDay(dataSnapshot2.getKey());
                             veneuModel.setTotalSeats(dataSnapshot2.child("seats").getValue(String.class));
+                            veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                            veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
                             veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
+                            veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
+                            veneuModel.setFbx(dataSnapshot2.child("fbx").getValue(Boolean.class));
+                            veneuModel.setWbx(dataSnapshot2.child("wbx").getValue(Boolean.class));
                             veneuModel.setSelected(false);
-                            if(!dataSnapshot2.getKey().equalsIgnoreCase("types")) {
-                                Log.e(TAG,"If is true ");
-                                classTimings.add(veneuModel);
-                            }else{
-                                typeModel=new TypeModel();
-                                typeModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
-//                                    typeModel=dataSnapshot2.getValue(TypeModel.class);
-                                try{
-                                    typeModel.setFbx(dataSnapshot2.child("fbx").getValue(Boolean.class));
-                                    if(typeModel.isFbx()){
-                                        fbx.setVisibility(View.VISIBLE);
-                                    }
-                                }catch (Exception c){
-                                    c.printStackTrace();
+                            try{
+                                int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                                if(s<=0){
+                                    veneuModel.setFbxEnabled(false);
+//                                    classTimings.add(veneuModel);
+                                }else{
+                                    veneuModel.setFbxSeats(s+"");
+                                    veneuModel.setFbxEnabled(true);
+//                                    classTimings.add(veneuModel);
                                 }
-                                try{
-                                    typeModel.setWbx(dataSnapshot2.child("wbx").getValue(Boolean.class));
-                                    if(typeModel.isWbx()){
-                                        wbx.setVisibility(View.VISIBLE);
-                                    }
-                                }catch (Exception c){
-                                    c.printStackTrace();
-                                }
-
+                            }catch (Exception c){
+                                c.printStackTrace();
                             }
+                            try{
+                                int s=Integer.parseInt(dataSnapshot2.child("wbxSeats").getValue(String.class));
+                                if(s<=0){
+                                    veneuModel.setWbxEnabled(false);
+//                                    classTimings.add(veneuModel);
+                                }else{
+                                    veneuModel.setWbxSeats(s+"");
+                                    veneuModel.setWbxEnabled(true);
+//                                    classTimings.add(veneuModel);
+                                }
+                            }catch (Exception c){
+                                c.printStackTrace();
+                            }
+                            classTimings.add(veneuModel);
                         }
 
 
@@ -231,10 +277,6 @@ public class VeneuActivity extends AppCompatActivity {
                 // your code here
                 String selectedItemText = (String) parentView.getItemAtPosition(position);
                 progressDialog.show();
-                fbx.setChecked(false);
-                wbx.setChecked(false);
-                fbx.setVisibility(View.GONE);
-                wbx.setVisibility(View.GONE);
                 myRef.child(selectedItemText).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -244,35 +286,44 @@ public class VeneuActivity extends AppCompatActivity {
                                 VeneuModel veneuModel=new VeneuModel();
                                 veneuModel.setVenue(selectedItemText);
                                 veneuModel.setDay(dataSnapshot2.getKey());
+
                                 veneuModel.setTotalSeats(dataSnapshot2.child("seats").getValue(String.class));
+                                veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                                veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
                                 veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
                                 veneuModel.setSelected(false);
-                                if(!dataSnapshot2.getKey().equalsIgnoreCase("types")) {
-                                    Log.e(TAG,"If is true ");
-                                    classTimings.add(veneuModel);
-                                }else{
-                                    typeModel=new TypeModel();
-                                    typeModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
-//                                    typeModel=dataSnapshot2.getValue(TypeModel.class);
-                                    try{
-                                        typeModel.setFbx(dataSnapshot2.child("fbx").getValue(Boolean.class));
-                                        if(typeModel.isFbx()){
-                                            fbx.setVisibility(View.VISIBLE);
-                                        }
-                                    }catch (Exception c){
-                                        c.printStackTrace();
-                                    }
-                                    try{
-                                        typeModel.setWbx(dataSnapshot2.child("wbx").getValue(Boolean.class));
-                                        if(typeModel.isWbx()){
-                                            wbx.setVisibility(View.VISIBLE);
-                                        }
-                                    }catch (Exception c){
-                                        c.printStackTrace();
+                                veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
+                                veneuModel.setFbxEnabled(dataSnapshot2.child("fbx").getValue(Boolean.class));
+                                veneuModel.setWbxEnabled(dataSnapshot2.child("wbx").getValue(Boolean.class));
+                                try{
+                                    int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                                    if(s<=0){
+                                        veneuModel.setFbxEnabled(false);
+//                                        classTimings.add(veneuModel);
+                                    }else{
+                                        veneuModel.setFbxSeats(s+"");
+                                        veneuModel.setFbxEnabled(true);
+//                                        classTimings.add(veneuModel);
                                     }
 
+                                }catch (Exception c){
+                                    c.printStackTrace();
                                 }
-//                                classTimings.add(veneuModel);
+                                try{
+                                    int s=Integer.parseInt(dataSnapshot2.child("wbxSeats").getValue(String.class));
+                                    if(s<=0){
+                                        veneuModel.setWbxEnabled(false);
+//                                        classTimings.add(veneuModel);
+                                    }else{
+                                        veneuModel.setWbxSeats(s+"");
+                                        veneuModel.setWbxEnabled(true);
+//                                        classTimings.add(veneuModel);
+                                    }
+//                                    classTimings.add(veneuModel);
+                                }catch (Exception c){
+                                    c.printStackTrace();
+                                }
+                                classTimings.add(veneuModel);
                             }
                         progressDialog.dismiss();
                         myAdapter.notifyDataSetChanged();
@@ -291,37 +342,21 @@ public class VeneuActivity extends AppCompatActivity {
             }
 
         });
-        fbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                recyclerView.setNestedScrollingEnabled(false);
-                recyclerView.setLayoutManager(new LinearLayoutManager(VeneuActivity.this));
-                myAdapter=new MyAdapter(getApplicationContext(),VeneuActivity.this,classTimings);
-                recyclerView.setAdapter(myAdapter);
-            }
-        });
-        wbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                recyclerView.setNestedScrollingEnabled(false);
-                recyclerView.setLayoutManager(new LinearLayoutManager(VeneuActivity.this));
-                myAdapter=new MyAdapter(getApplicationContext(),VeneuActivity.this,classTimings);
-                recyclerView.setAdapter(myAdapter);
-            }
-        });
+
         findViewById(R.id.pay_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    int seats=Integer.parseInt(veneuModel.getTotalSeats());
-                    if(seats<=0){
-                        Toast.makeText(getApplicationContext(),"No seats available ",Toast.LENGTH_LONG).show();
-                        return;
-                    }
+//                    int seats=Integer.parseInt(veneuModel.getTotalSeats());
+//                    if(seats<=0){
+//                        Toast.makeText(getApplicationContext(),"No seats available ",Toast.LENGTH_LONG).show();
+//                        return;
+//                    }
                     if(totalPrice>0)
                         paymentiflatecall(totalPrice);
                     else
                         Toast.makeText(getApplicationContext(),"Please select Class type",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Price "+totalPrice,Toast.LENGTH_LONG).show();
                 }catch (Exception c){
                     c.printStackTrace();
                     Toast.makeText(getApplicationContext(),"Please select class timming",Toast.LENGTH_LONG).show();
@@ -332,11 +367,11 @@ public class VeneuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try{
-                    int seats=Integer.parseInt(veneuModel.getTotalSeats());
-                    if(seats<=0){
-                        Toast.makeText(getApplicationContext(),"No seats available ",Toast.LENGTH_LONG).show();
-                        return;
-                    }
+//                    int seats=Integer.parseInt(veneuModel.getTotalSeats());
+//                    if(seats<=0){
+//                        Toast.makeText(getApplicationContext(),"No seats available ",Toast.LENGTH_LONG).show();
+//                        return;
+//                    }
                     if(totalPrice>0)
 //                    makePayment();
                         paymentpaypalname();
@@ -351,6 +386,13 @@ public class VeneuActivity extends AppCompatActivity {
         });
         congifPaypal();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        myAdapter.notifyDataSetChanged();
+    }
+
     public int  paymentpaypalname() {
         Log.e(TAG,"payment called");
 //        Context c = getApplicationContext();
@@ -375,14 +417,16 @@ public class VeneuActivity extends AppCompatActivity {
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(!perName.getText().toString().isEmpty()
                         && !phoneNumber.getText().toString().isEmpty()) {
                     payUserModel=new PayUserModel();
                     personName=perName.getText().toString()+":_:"+android_id;
                     payUserModel.setName(personName);
                     payUserModel.setPhoneNumber(phoneNumber.getText().toString());
-                    veneuModel.setPersonName(perName.getText().toString());
-                    veneuModel.setPhoneNumber(phoneNumber.getText().toString());
+                    phone=phoneNumber.getText().toString();
+//                    veneuModel.setPersonName(perName.getText().toString());
+//                    veneuModel.setPhoneNumber(phoneNumber.getText().toString());
                     progressDialog.show();
                     makePayment();
                     value.dismiss();
@@ -404,17 +448,25 @@ public class VeneuActivity extends AppCompatActivity {
         Activity activity;
         String TAG;
         public class MyViewHolder extends RecyclerView.ViewHolder  {
-            ImageView image;
+//            ImageView image;
             TextView day,fbxTime,wbxtime;
+            CheckBox fbx,wbx;
+            CardView cardView;
 
             public MyViewHolder(View view) {
                 super(view);
 //                sideImage=view.findViewById(R.id.side_image);
-                image=view.findViewById(R.id.select_image);
+//                image=view.findViewById(R.id.select_image);
                 day=view.findViewById(R.id.day);
                 fbxTime=view.findViewById(R.id.fbx_time);
+//                fbxTime.setVisibility(View.GONE);
                 wbxtime=view.findViewById(R.id.wbx_time);
-                wbxtime.setVisibility(View.GONE);
+//                wbxtime.setVisibility(View.GONE);
+                fbx=view.findViewById(R.id.fbx);
+                wbx=view.findViewById(R.id.wbx);
+                cardView=view.findViewById(R.id.card_view);
+                cardView.setBackgroundResource(R.drawable.shadow);
+
 //                day=view.findViewById(R.id.day);
 //                day.setVisibility(View.GONE);
 
@@ -440,107 +492,250 @@ public class VeneuActivity extends AppCompatActivity {
 //        }
 
 //        final OnlineClassModel model=data.get(position);
+            Log.e(TAG,"delye is "+classTimings.get(position).getDelay());
             boolean tempStatus=false;
-            if(data.get(position).isSelected()){
-                holder.image.setImageResource(R.drawable.check);
+            if(!data.get(position).isFbxEnabled()) {
+                holder.fbx.setVisibility(View.GONE);
+                holder.fbxTime.setVisibility(View.GONE);
             }else{
-                holder.image.setImageResource(R.drawable.uncheck);
+                holder.fbx.setVisibility(View.VISIBLE);
+                holder.fbxTime.setVisibility(View.VISIBLE);
+            }
+
+            if(!data.get(position).isWbxEnabled()) {
+                holder.wbx.setVisibility(View.GONE);
+                holder.wbxtime.setVisibility(View.GONE);
+            }else {
+                holder.wbx.setVisibility(View.VISIBLE);
+                holder.wbxtime.setVisibility(View.VISIBLE);
             }
             holder.day.setText(data.get(position).getDay());
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+            Date d = new Date();
+            String dayOfTheWeek = sdf.format(d);
+            if(dayOfTheWeek.equalsIgnoreCase(data.get(position).getDay())){
+                Calendar cal = GregorianCalendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(Calendar.DAY_OF_YEAR, 7);
+                String date = new SimpleDateFormat("EEEE dd/MM/yyyy", Locale.getDefault()).format(cal.getTime());
+                holder.day.setText(date);
+
+
+            }else{
+                Calendar cal = Calendar.getInstance();
+//                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE dd/MM/yyyy");
+                for (int i = 0; i < 7; i++) {
+                    String string=sdf2.format(cal.getTime());
+                    if(string.contains(data.get(position).getDay())){
+                        holder.day.setText(string);
+                        break;
+                    }
+                    Log.i("dateTag", sdf2.format(cal.getTime()));
+                    cal.add(Calendar.DAY_OF_WEEK, 1);
+                }
+            }
+
+            classTimings.get(position).setFbx(false);
+            classTimings.get(position).setWbx(false);
 
 //            holder.day.setText(data.get(position).getDay()+" Time "+data.get(position).getTime()+ " price "+fbxPrice);
-            if(fbx.isChecked()){
-                holder.fbxTime.setVisibility(View.VISIBLE);
-                holder.fbxTime.setText("FBX ("+fbxPrice+")"+ " -> "+ data.get(position).getTime());
-                tempStatus=true;
-            }
-            if(wbx.isChecked()){
-                String endTime = null;
-                try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa", Locale.US);
-                    Date now = formatter.parse(data.get(position).getTime());
-                    int dely=Integer.parseInt(typeModel.getDelay());
-//
-                    Calendar calendar=Calendar.getInstance(Locale.US);
-                    calendar.setTime(now);
-                    DateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis(now.getTime());
-
-
-                    cal.add(Calendar.MINUTE, dely);
-
-                    endTime = timeFormat.format(cal.getTime());
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                holder.wbxtime.setVisibility(View.VISIBLE);
-                holder.wbxtime.setText(endTime+" Wbx " +" price "+wbxPrice);
-                holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ endTime);
-                if(tempStatus){
-
-                }else{
-                    holder.fbxTime.setVisibility(View.GONE);
-//                    holder.otherTime.setVisibility(View.VISIBLE);
-////                    holder.otherTime.setText(data.get(position).getDay()+" Time "+data.get(position).getTime()+" Delay with "+typeModel.getDelay()+" min Wbx");
-//                    holder.otherTime.setText(data.get(position).getDay()+" Time "+endTime+" Wbx"+" price "+wbxPrice);
-                }
-            }
-
-            holder.image.setOnClickListener(new View.OnClickListener() {
+            myRefCart.child(android_id).child(data.get(position).getVenue()).child(data.get(position).getDay()).child("fbx").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onClick(View v) {
-
-                    if(fbx.isChecked() || wbx.isChecked()){
-                        if(data.get(position).isSelected()){
-                            data.get(position).setSelected(false);
-                            totalText.setText("Pay ");
-                            veneuModel=null;
-                        }else{
-                            for(int i=0;i<data.size();i++){
-                                data.get(i).setSelected(false);
-                            }
-                            double wbxpriceint=0;
-                            double fbxpirceint=0;
-                            try{
-                                wbxpriceint=Double.parseDouble(wbxPrice.substring(0,wbxPrice.length()-1));
-                                fbxpirceint=Double.parseDouble(fbxPrice.substring(0,wbxPrice.length()-1));
-                            }catch (Exception c){
-                                c.printStackTrace();
-                            }
-                            Log.e(TAG,"fbx price "+fbxPrice);
-                            Log.e(TAG,"wbx price "+wbxPrice);
-                            Log.e(TAG,"fbx price int "+fbxpirceint);
-                            Log.e(TAG,"wbx price int  "+wbxpriceint);
-                            if(fbx.isChecked() && wbx.isChecked()){
-                                totalPrice=wbxpriceint+fbxpirceint;
-                                totalText.setText("Pay : "+totalPrice+"£");
-                            }else if(fbx.isChecked()){
-                                totalPrice=fbxpirceint;
-                                totalText.setText("Pay : "+totalPrice+"£");
-                            }else if(wbx.isChecked()){
-                                totalPrice=wbxpriceint;
-                                totalText.setText("Pay : "+totalPrice+"£");
-                            }else{
-                                totalPrice=0;
-                                totalText.setText("Pay ");
-                            }
-
-                            data.get(position).setSelected(true);
-                            veneuModel=data.get(position);
-                        }
-
-                        notifyDataSetChanged();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"please select Class type",Toast.LENGTH_LONG).show();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    try{
+                        holder.fbx.setChecked(dataSnapshot.getValue(Boolean.class));
+                    }catch (Exception c){
+                        c.printStackTrace();
                     }
+                }
 
-
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
+            holder.fbxTime.setText("FBX ("+fbxPrice+")"+ " -> "+
+                    data.get(position).getTime()+" -> " +"Available spaces : "+data.get(position).getFbxSeats());
+            String endTime = null;
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.US);
+                Date now = formatter.parse(data.get(position).getTime());
+                int dely=Integer.parseInt(classTimings.get(0).getDelay());
+                Log.e(TAG,"delay is "+dely);
+//
+                Calendar calendar=Calendar.getInstance(Locale.US);
+                calendar.setTime(now);
+                DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(now.getTime());
+
+
+                cal.add(Calendar.MINUTE, dely);
+
+                endTime = timeFormat.format(cal.getTime());
+                holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ endTime
+                        +" Available spaces : "+data.get(position).getFbxSeats());
+//                            totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            holder.wbxtime.setVisibility(View.VISIBLE);
+//                        holder.wbxtime.setText(endTime+" Wbx " +" price "+wbxPrice);
+//            holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ endTime
+//                    +" Available spaces : "+data.get(position).getFbxSeats());
+            holder.fbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+               @Override
+               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                   if(isChecked){
+//                       holder.fbxTime.setVisibility(View.VISIBLE);
+                     data.get(position).setSelected(true);
+//                       totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
+//                       tempStatus=true;
+                   }else{
+//                       holder.fbxTime.setVisibility(View.GONE);
+//                       totalText.setText("£"+pricesubstractor(holder.fbx,holder.wbx)+"");
+                       if(!holder.wbx.isChecked()){
+                           data.get(position).setSelected(false);
+                       }else{
+                           data.get(position).setSelected(true);
+                       }
+                   }
+                   classTimings.get(position).setFbx(isChecked);
+                   totalText.setText("Added to cart : £"+priceChanger()+"");
+
+                   addtoCart(position);
+
+               }
+           });
+//            if(holder.fbx.isChecked()){
+//                holder.fbxTime.setVisibility(View.VISIBLE);
+//                holder.fbxTime.setText("FBX ("+fbxPrice+")"+ " -> "+ data.get(position).getTime());
+//                tempStatus=true;
+//            }
+            myRefCart.child(android_id).child(data.get(position).getVenue()).child(data.get(position).getDay()).child("wbx").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    try{
+                        holder.wbx.setChecked(dataSnapshot.getValue(Boolean.class));
+                    }catch (Exception c){
+                        c.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            holder.wbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        data.get(position).setSelected(true);
+//                        totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
+//                        String endTime = null;
+//                        try {
+//                            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm ", Locale.US);
+//                            Date now = formatter.parse(data.get(position).getTime());
+//                            int dely=Integer.parseInt(classTimings.get(0).getDelay());
+//                            Log.e(TAG,"delay is "+dely);
+////
+//                            Calendar calendar=Calendar.getInstance(Locale.US);
+//                            calendar.setTime(now);
+//                            DateFormat timeFormat = new SimpleDateFormat("hh:mm ");
+//                            Calendar cal = Calendar.getInstance();
+//                            cal.setTimeInMillis(now.getTime());
+//
+//
+//                            cal.add(Calendar.MINUTE, dely);
+//
+//                            endTime = timeFormat.format(cal.getTime());
+////                            totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        holder.wbxtime.setVisibility(View.VISIBLE);
+////                        holder.wbxtime.setText(endTime+" Wbx " +" price "+wbxPrice);
+//                        holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ endTime
+//                                +" Available spaces : "+data.get(position).getFbxSeats());
+
+                    }else{
+//                        holder.wbxtime.setVisibility(View.GONE);
+                        totalText.setText("£"+pricesubstractor(holder.fbx,holder.wbx)+"");
+
+                        if(!holder.fbx.isChecked()){
+                            data.get(position).setSelected(false);
+                        }else{
+                            data.get(position).setSelected(true);
+                        }
+
+                    }
+                    classTimings.get(position).setWbx(isChecked);
+                    totalText.setText("Added to cart : £"+priceChanger()+"");
+
+                    addtoCart(position);
+                }
+
+
+
+            });
+
+
+//            holder.image.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    if(fbx.isChecked() || wbx.isChecked()){
+//                        if(data.get(position).isSelected()){
+//                            data.get(position).setSelected(false);
+//                            totalText.setText("£"+pricesubstractor()+"");
+//                            veneuModels.remove(data.get(position));
+//                        }else{
+//
+////                            double wbxpriceint=0;
+////                            double fbxpirceint=0;
+////                            try{
+////                                wbxpriceint=Double.parseDouble(wbxPrice.substring(1,wbxPrice.length()));
+////                                fbxpirceint=Double.parseDouble(fbxPrice.substring(1,wbxPrice.length()));
+////                            }catch (Exception c){
+////                                c.printStackTrace();
+////                            }
+////                            Log.e(TAG,"fbx price "+fbxPrice);
+////                            Log.e(TAG,"wbx price "+wbxPrice);
+////                            Log.e(TAG,"fbx price int "+fbxpirceint);
+////                            Log.e(TAG,"wbx price int  "+wbxpriceint);
+////                            if(fbx.isChecked() && wbx.isChecked()){
+////                                totalPrice=wbxpriceint+fbxpirceint;
+////                                totalText.setText("Pay : £"+totalPrice);
+////                            }else if(fbx.isChecked()){
+////                                totalPrice=fbxpirceint;
+////                                totalText.setText("Pay : £"+totalPrice);
+////                            }else if(wbx.isChecked()){
+////                                totalPrice=wbxpriceint;
+////                                totalText.setText("Pay : £"+totalPrice);
+////                            }else{
+////                                totalPrice=0;
+////                                totalText.setText("Pay ");
+////                            }
+//
+//                            data.get(position).setSelected(true);
+//                            veneuModel=data.get(position);
+//                            veneuModels.add(data.get(position));
+//                            totalText.setText("£"+priceAdder()+"");
+//                        }
+//
+//                        notifyDataSetChanged();
+//                    }else{
+//                        Toast.makeText(getApplicationContext(),"please select Class type",Toast.LENGTH_LONG).show();
+//                    }
+//
+//
+//
+//                }
+//            });
 
 
 
@@ -555,6 +750,53 @@ public class VeneuActivity extends AppCompatActivity {
             return position;
         }
     }
+
+
+    public void addtoCart(int i){
+        String type="";
+        if(classTimings.get(i).isFbx()){
+            type=type+",FBX";
+//            int seats=Integer.parseInt( classTimings.get(i).getFbxSeats());
+//            seats--;
+//            if(seats<0){
+//
+//            }else
+//                myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("fbxSeats").setValue(seats+"");
+
+        }
+        if(classTimings.get(i).isFbx()){
+            type=type+",WTB";
+//            int seats=Integer.parseInt( classTimings.get(i).getWbxSeats());
+//            seats--;
+//            if(seats<0){
+//
+//            }else{
+//                myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("wbxSeats").setValue(seats+"");
+//            }
+
+        }
+        try{
+            type=type.substring(1,type.length());
+        }catch (Exception c){
+            c.printStackTrace();
+        }
+
+        classTimings.get(i).setType(type);
+//        classTimings.get(i).setTransectionId(transectionId);
+//        classTimings.get(i).setPaymentId(paymentId);
+//        classTimings.get(i).setPhoneNumber(phone);
+        if(classTimings.get(i).isSelected()){
+            myRefCart.child(android_id).child( classTimings.get(i).getVenue())
+                    .child(classTimings.get(i).getDay()).setValue(classTimings.get(i));
+//            myRefCart.child( classTimings.get(i).getVenue()).child(personName+i).setValue( classTimings.get(i));
+//                int seats=Integer.parseInt( classTimings.get(i).getTotalSeats());
+//                seats--;
+//                myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("seats").setValue(seats+"");
+
+        }
+
+    }
+
 
 
     private void congifPaypal() {
@@ -610,8 +852,10 @@ public class VeneuActivity extends AppCompatActivity {
                     personName=perName.getText().toString()+":_:"+android_id;
                     payUserModel.setName(personName);
                     payUserModel.setPhoneNumber(phoneNumber.getText().toString());
-                    veneuModel.setPersonName(perName.getText().toString());
-                    veneuModel.setPhoneNumber(phoneNumber.getText().toString());
+                    phone=phoneNumber.getText().toString();
+//                    veneuModel.setPersonName(perName.getText().toString());
+//                    veneuModel.setPhoneNumber(phoneNumber.getText().toString());
+//                    /
                     progressDialog.show();
                     value.dismiss();
                     paymentCall(price);
@@ -670,8 +914,10 @@ public class VeneuActivity extends AppCompatActivity {
                 if(paymentConfirmation != null) {
                     try {
                         Log.e("paypalPayment", "" + paymentConfirmation.toJSONObject().toString(4));
-                        veneuModel.setPaymentId(paymentConfirmation.getProofOfPayment().getPaymentId());
-                        veneuModel.setTransectionId(paymentConfirmation.getProofOfPayment().getTransactionId());
+//                        veneuModel.setPaymentId(paymentConfirmation.getProofOfPayment().getPaymentId());
+                        paymentId=paymentConfirmation.getProofOfPayment().getPaymentId();
+//                        veneuModel.setTransectionId(paymentConfirmation.getProofOfPayment().getTransactionId());
+                        transectionId= paymentConfirmation.getProofOfPayment().getTransactionId();
                         updateBookedTable();
                     }
                     catch(Exception e) {
@@ -722,8 +968,10 @@ public class VeneuActivity extends AppCompatActivity {
                         //add order to database
                         //succsess a gai
                         Log.e(TAG,"amount paid");
-                        veneuModel.setTransectionId(jsonObject.getString("id"));
-                        veneuModel.setPaymentId(jsonObject.getString("created"));
+//                        veneuModel.setTransectionId(jsonObject.getString("id"));
+                        transectionId=jsonObject.getString("id");
+//                        veneuModel.setPaymentId(jsonObject.getString("created"));
+                        paymentId=jsonObject.getString("created");
                         Toast.makeText(getApplicationContext(),"amount paid",Toast.LENGTH_LONG).show();
                         updateBookedTable();
 
@@ -757,32 +1005,94 @@ public class VeneuActivity extends AppCompatActivity {
 
     }
 
+//    public void updateBookedTable(){
+//
+//
+//        for(int i=0;i<veneuModels.size();i++){
+//            String type="";
+//            if(veneuModels.get(i).isFbx()){
+//                type=",FBX";
+//            }
+//            if(veneuModels.get(i).isFbx()){
+//                type=",WTB";
+//            }
+//            try{
+//                type=type.substring(1,type.length());
+//            }catch (Exception c){
+//                c.printStackTrace();
+//            }
+//
+//            veneuModels.get(i).setType(type);
+//
+//            myRefBooked.child( veneuModels.get(i).getVenue()).child(personName+i).setValue( veneuModels.get(i));
+//            int seats=Integer.parseInt( veneuModels.get(i).getTotalSeats());
+//            seats--;
+//            myRef.child( veneuModels.get(i).getVenue()).child( veneuModels.get(i).getDay()).child("seats").setValue(seats+"");
+//
+//        }
+//
+//        progressDialog.dismiss();
+//        aleartDialog();
+//
+//    }
     public void updateBookedTable(){
-        String type="";
-        if(fbx.isChecked()){
-            type=",FBX";
-        }
-        if(fbx.isChecked()){
-            type=",WTB";
-        }
-        try{
-            type=type.substring(1,type.length());
-        }catch (Exception c){
-            c.printStackTrace();
-        }
 
-        veneuModel.setType(type);
 
-        myRefBooked.child(veneuModel.getVenue()).child(personName).setValue(veneuModel);
-        int seats=Integer.parseInt(veneuModel.getTotalSeats());
-        seats--;
-        myRef.child(veneuModel.getVenue()).child(veneuModel.getDay()).child("seats").setValue(seats+"");
+        for(int i=0;i<classTimings.size();i++){
+            String type="";
+            if(classTimings.get(i).isFbx()){
+                type=type+",FBX";
+                int seats=Integer.parseInt( classTimings.get(i).getFbxSeats());
+                seats--;
+                if(seats<0){
+
+                }else
+                    myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("fbxSeats").setValue(seats+"");
+
+            }
+            if(classTimings.get(i).isFbx()){
+                type=type+",WTB";
+                int seats=Integer.parseInt( classTimings.get(i).getWbxSeats());
+                seats--;
+                if(seats<0){
+
+                }else{
+                    myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("wbxSeats").setValue(seats+"");
+                }
+
+            }
+            try{
+                type=type.substring(1,type.length());
+            }catch (Exception c){
+                c.printStackTrace();
+            }
+
+            classTimings.get(i).setType(type);
+            classTimings.get(i).setTransectionId(transectionId);
+            classTimings.get(i).setPaymentId(paymentId);
+            classTimings.get(i).setPhoneNumber(phone);
+            if(classTimings.get(i).isSelected()){
+                myRefBooked.child( classTimings.get(i).getVenue()).child(personName+i).setValue( classTimings.get(i));
+//                int seats=Integer.parseInt( classTimings.get(i).getTotalSeats());
+//                seats--;
+//                myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("seats").setValue(seats+"");
+
+            }
+
+        }
+        myRefCart.child(android_id).removeValue();
         progressDialog.dismiss();
         aleartDialog();
 
     }
     public void aleartDialog(){
-        String text="Transaction id is "+veneuModel.getTransectionId()+"\nPayment id is : "+veneuModel.getPaymentId()+"\n\nPlease take screen shot and save it for further use if required";
+        String[] separated = personName.split(":_:");
+        HistoryModel historyModel=new HistoryModel();
+        historyModel.setName(separated[0]);
+        historyModel.setPaymentId(paymentId);
+        historyModel.setTransectoionid(transectionId);
+        myRefHistory.push().setValue(historyModel);
+        String text="Transaction id is "+transectionId+"\nPayment id is : "+paymentId+"\n\nPlease take screen shot and save it for further use if required";
         AlertDialog alertDialog = new AlertDialog.Builder(VeneuActivity.this).create();
         alertDialog.setTitle("Payment Alert");
         alertDialog.setMessage(text);
@@ -832,6 +1142,134 @@ public class VeneuActivity extends AppCompatActivity {
             this.wbx = wbx;
         }
     }
+
+    public double priceAdder(CheckBox fbx,CheckBox wbx){
+        double wbxpriceint=0;
+        double fbxpirceint=0;
+        try{
+            wbxpriceint=Double.parseDouble(wbxPrice.substring(1,wbxPrice.length()));
+            fbxpirceint=Double.parseDouble(fbxPrice.substring(1,fbxPrice.length()));
+        }catch (Exception c){
+            c.printStackTrace();
+        }
+        if(fbx.isChecked() && wbx.isChecked()){
+            totalPrice=totalPrice+wbxpriceint+fbxpirceint;
+        }else if(fbx.isChecked()){
+            totalPrice=totalPrice+fbxpirceint;
+        }else if(wbx.isChecked()){
+            totalPrice=totalPrice+wbxpriceint;
+        }
+        totalPrice=Double.parseDouble(String.format("%.2f", totalPrice));
+        return totalPrice;
+
+
+    }
+    public double pricesubstractor(CheckBox fbx,CheckBox wbx){
+        double wbxpriceint=0;
+        double fbxpirceint=0;
+        try{
+            wbxpriceint=Double.parseDouble(wbxPrice.substring(1,wbxPrice.length()));
+            fbxpirceint=Double.parseDouble(fbxPrice.substring(1,fbxPrice.length()));
+        }catch (Exception c){
+            c.printStackTrace();
+        }
+         if(!fbx.isChecked()){
+            totalPrice=totalPrice-fbxpirceint;
+        }else if(!wbx.isChecked()){
+            totalPrice=totalPrice-wbxpriceint;
+        }else{
+//            totalPrice;
+        }
+        if(totalPrice<0)
+            totalPrice=0;
+
+        totalPrice=Double.parseDouble(String.format("%.2f", totalPrice));
+
+        return totalPrice;
+    }
+
+
+    public double priceChanger(){
+        Log.e(TAG,"price updater");
+        totalPrice=0;
+        for(int i =0;i<classTimings.size();i++){
+            Log.e(TAG,"price updater loop started");
+            if(classTimings.get(i).isFbx()){
+                Log.e(TAG,"price updater fbx is true");
+                double price=0;
+                try{
+                    price=Double.parseDouble(fbxPrice.substring(1,fbxPrice.length()));
+                    totalPrice=totalPrice+price;
+                    Log.e(TAG,"price updater updated");
+                }catch (Exception c){
+                    c.printStackTrace();
+                    Log.e(TAG,"price updater fbx exception");
+                }
+            }
+            if(classTimings.get(i).isWbx()){
+                Log.e(TAG,"price updater wbx is true");
+                double wbxpriceint=0;
+                try{
+                    wbxpriceint=Double.parseDouble(wbxPrice.substring(1,wbxPrice.length()));
+                    totalPrice=totalPrice+wbxpriceint;
+                    Log.e(TAG,"price updater wbx is updated ");
+                }catch (Exception c){
+                    c.printStackTrace();
+                    Log.e(TAG,"price updater wbx in exce3ption ");
+                }
+            }
+        }
+        totalPrice=Double.parseDouble(String.format("%.2f", totalPrice));
+        return  totalPrice;
+    }
+//    public double priceChanger(int i){
+//        if(classTimings.get(i).isFbx()){
+//            Log.e(TAG,"price updater fbx is true");
+//            double price=0;
+//            try{
+//                price=Double.parseDouble(fbxPrice.substring(1,fbxPrice.length()));
+//                totalPrice=totalPrice+price;
+//                Log.e(TAG,"price updater updated");
+//            }catch (Exception c){
+//                c.printStackTrace();
+//                Log.e(TAG,"price updater fbx exception");
+//            }
+//        }else{
+//            double price=0;
+//            try{
+//                price=Double.parseDouble(fbxPrice.substring(1,fbxPrice.length()));
+//                totalPrice=totalPrice-price;
+//                Log.e(TAG,"price updater updated");
+//            }catch (Exception c){
+//                c.printStackTrace();
+//                Log.e(TAG,"price updater fbx exception");
+//            }
+//        }
+//        if(classTimings.get(i).isWbx()){
+//            Log.e(TAG,"price updater wbx is true");
+//            double wbxpriceint=0;
+//            try{
+//                wbxpriceint=Double.parseDouble(wbxPrice.substring(1,wbxPrice.length()));
+//                totalPrice=totalPrice+wbxpriceint;
+//                Log.e(TAG,"price updater wbx is updated ");
+//            }catch (Exception c){
+//                c.printStackTrace();
+//                Log.e(TAG,"price updater wbx in exce3ption ");
+//            }
+//        }else{
+//            double wbxpriceint=0;
+//            try{
+//                wbxpriceint=Double.parseDouble(wbxPrice.substring(1,wbxPrice.length()));
+//                totalPrice=totalPrice-wbxpriceint;
+//                Log.e(TAG,"price updater wbx is updated ");
+//            }catch (Exception c){
+//                c.printStackTrace();
+//                Log.e(TAG,"price updater wbx in exce3ption ");
+//            }
+//        }
+//        totalPrice=Double.parseDouble(String.format("%.2f", totalPrice));
+//        return  totalPrice;
+//    }
 
 }
 

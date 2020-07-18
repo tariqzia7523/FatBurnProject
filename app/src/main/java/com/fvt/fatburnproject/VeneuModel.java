@@ -15,7 +15,85 @@ public class VeneuModel implements Serializable {
 
     boolean selected;
 
+    boolean fbxEnabled;
+    boolean wbxEnabled;
+
+    String fbxSeats;
+    String wbxSeats;
+
+    public String getFbxSeats() {
+        return fbxSeats;
+    }
+
+    public void setFbxSeats(String fbxSeats) {
+        this.fbxSeats = fbxSeats;
+    }
+
+    public String getWbxSeats() {
+        return wbxSeats;
+    }
+
+    public void setWbxSeats(String wbxSeats) {
+        this.wbxSeats = wbxSeats;
+    }
+
+    public boolean isFbxEnabled() {
+        return fbxEnabled;
+    }
+
+    public void setFbxEnabled(boolean fbxEnabled) {
+        this.fbxEnabled = fbxEnabled;
+    }
+
+    public boolean isWbxEnabled() {
+        return wbxEnabled;
+    }
+
+    public void setWbxEnabled(boolean wbxEnabled) {
+        this.wbxEnabled = wbxEnabled;
+    }
+
     String type;
+
+    String id;
+
+
+    String delay;
+
+    public String getDelay() {
+        return delay;
+    }
+
+    public void setDelay(String delay) {
+        this.delay = delay;
+    }
+
+    boolean fbx;
+    boolean wbx;
+
+    public boolean isFbx() {
+        return fbx;
+    }
+
+    public void setFbx(boolean fbx) {
+        this.fbx = fbx;
+    }
+
+    public boolean isWbx() {
+        return wbx;
+    }
+
+    public void setWbx(boolean wbx) {
+        this.wbx = wbx;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getType() {
         return type;

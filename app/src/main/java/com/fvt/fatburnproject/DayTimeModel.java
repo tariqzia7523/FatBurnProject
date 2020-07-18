@@ -4,7 +4,51 @@ public class DayTimeModel {
     String day;
     String time;
     String seats;
+    String delay;
+    boolean fbx;
+    boolean wbx;
+    String fbxSeats;
+    String wbxSeats;
 
+    public String getFbxSeats() {
+        return fbxSeats;
+    }
+
+    public void setFbxSeats(String fbxSeats) {
+        this.fbxSeats = fbxSeats;
+    }
+
+    public String getWbxSeats() {
+        return wbxSeats;
+    }
+
+    public void setWbxSeats(String wbxSeats) {
+        this.wbxSeats = wbxSeats;
+    }
+
+    public String getDelay() {
+        return delay;
+    }
+
+    public void setDelay(String delay) {
+        this.delay = delay;
+    }
+
+    public boolean isFbx() {
+        return fbx;
+    }
+
+    public void setFbx(boolean fbx) {
+        this.fbx = fbx;
+    }
+
+    public boolean isWbx() {
+        return wbx;
+    }
+
+    public void setWbx(boolean wbx) {
+        this.wbx = wbx;
+    }
 
     public String getSeats() {
         return seats;

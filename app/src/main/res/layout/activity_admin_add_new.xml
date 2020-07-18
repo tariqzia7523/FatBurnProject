@@ -38,36 +38,13 @@
                     android:layout_height="@dimen/_35sdp"
                     android:layout_margin="@dimen/_10sdp"
                     android:entries="@array/veneu_name"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Select Type"
-                    android:textSize="@dimen/_12sdp"
-                    android:gravity="center"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/_10sdp">
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/fbx"
-                        android:text="FBX"/>
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/wbx"
-                        android:text="WBX"
-                        android:layout_marginLeft="@dimen/_10sdp"/>
-                </LinearLayout>
+
                 <EditText
                     android:id="@+id/delay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:hint="Enter Delay"/>
+                    android:inputType="number"
+                    android:hint="Enter Delay" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +53,7 @@
                     android:gravity="center"/>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -85,50 +62,81 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/monday"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Monday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_monday"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/monday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Monday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_monday"/>
 
-                        <EditText
-                            android:id="@+id/monday_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/monday_seats"
-                            android:layout_toLeftOf="@+id/cb_monday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/monday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/monday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            <EditText
+                                android:id="@+id/monday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/monday_seats"
+                                android:layout_toLeftOf="@+id/cb_monday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/monday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/monday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_monday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_monday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_monday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp"
                             android:layout_marginRight="@dimen/_10sdp"/>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -137,50 +145,81 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/tuesday"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Tuesday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_tuesday"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tuesday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Tuesday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_tuesday"/>
 
-                        <EditText
-                            android:id="@+id/tuesday_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/tuesday_seats"
-                            android:layout_toLeftOf="@+id/cb_tuesday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/tuesday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tuesday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            <EditText
+                                android:id="@+id/tuesday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/tuesday_seats"
+                                android:layout_toLeftOf="@+id/cb_tuesday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/tuesday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tuesday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_tuesday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_tuesday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_tuesday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp"
                             android:layout_marginRight="@dimen/_10sdp"/>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -189,50 +228,81 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/wednesday"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Wednesday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_wednesday"/>
 
-                        <EditText
-                            android:id="@+id/wednesday_time"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/wednesday_seats"
-                            android:layout_toLeftOf="@+id/cb_wednesday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/wednesday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/wednesday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/wednesday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Wednesday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_wednesday"/>
+
+                            <EditText
+                                android:id="@+id/wednesday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/wednesday_seats"
+                                android:layout_toLeftOf="@+id/cb_wednesday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/wednesday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/wednesday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_wednessday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_wednessday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_wednesday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -241,50 +311,80 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/thursday"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Thursday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_thursday"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/thursday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Thursday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_thursday"/>
 
-                        <EditText
-                            android:id="@+id/thursday_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/thursday_seats"
-                            android:layout_toLeftOf="@+id/cb_thursday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/thursday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/thursday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            <EditText
+                                android:id="@+id/thursday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/thursday_seats"
+                                android:layout_toLeftOf="@+id/cb_thursday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/thursday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/thursday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_thursday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_thursday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_thursday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp"/>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -293,50 +393,80 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/friday"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Friday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_friday"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/friday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Friday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_friday"/>
 
-                        <EditText
-                            android:id="@+id/friday_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/friday_seats"
-                            android:layout_toLeftOf="@+id/cb_friday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/friday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/friday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            <EditText
+                                android:id="@+id/friday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/friday_seats"
+                                android:layout_toLeftOf="@+id/cb_friday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/friday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/friday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_friday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_friday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_friday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp"/>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -345,50 +475,80 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/saturday"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Saturday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_saturday"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/saturday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Saturday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_saturday"/>
 
-                        <EditText
-                            android:id="@+id/saturday_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/saturday_seats"
-                            android:layout_toLeftOf="@+id/cb_saturday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/saturday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/saturday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            <EditText
+                                android:id="@+id/saturday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/saturday_seats"
+                                android:layout_toLeftOf="@+id/cb_saturday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/saturday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/saturday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_saturday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_saturday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_saturday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp"/>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_150sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -397,45 +557,75 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/sunday"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_20sdp"
-                            android:textSize="@dimen/_12sdp"
-                            android:textColor="@color/grey"
-                            android:text="Monday"
-                            android:gravity="center|left"
-                            android:paddingLeft="@dimen/_20sdp"
-                            android:layout_toLeftOf="@+id/cb_sunday"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/sunday"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/grey"
+                                android:text="Sunday"
+                                android:gravity="center|left"
+                                android:paddingLeft="@dimen/_20sdp"
+                                android:layout_toLeftOf="@+id/cb_sunday"/>
 
-                        <EditText
-                            android:id="@+id/sunday_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:layout_above="@+id/sunday_seats"
-                            android:layout_toLeftOf="@+id/cb_sunday"
-                            android:hint="Enter class Time"
-                            android:focusable="false"
-                            android:layout_below="@+id/sunday" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/sunday_seats"
-                            android:layout_alignParentBottom="true"
-                            android:inputType="number"
-                            android:hint="Enter Available seats"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            <EditText
+                                android:id="@+id/sunday_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/sunday_seats"
+                                android:layout_toLeftOf="@+id/cb_sunday"
+                                android:hint="Enter class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/sunday" />
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sunday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Select Type"
+                                android:textSize="@dimen/_12sdp"
+                                android:gravity="center"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_30sdp"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_10sdp">
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/fbx_sunday"
+                                    android:text="FBX"/>
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/wbx_sunday"
+                                    android:text="WTB"
+                                    android:layout_marginLeft="@dimen/_10sdp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <CheckBox
                             android:id="@+id/cb_sunday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"/>
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="@dimen/_10sdp"/>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -457,7 +647,7 @@
                     android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:layout_margin="@dimen/_10sdp"
                     android:hint="Enter Price" />
 

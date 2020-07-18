@@ -8,7 +8,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FAQUserDetailActivity"></activity>
+        <activity android:name=".MyCartClient"></activity>
+        <activity android:name=".AdminHistoryActivity" />
+        <activity android:name=".AdminEditPayActivty" />
+        <activity android:name=".FAQUserDetailActivity" />
         <activity android:name=".UserFAQActivity" />
         <activity android:name=".AdminFAQActivityDetail" />
         <activity android:name=".AdminFAQActivity" />

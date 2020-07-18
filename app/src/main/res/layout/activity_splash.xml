@@ -10,8 +10,9 @@
     tools:context=".SplashActivity">
 
     <ImageView
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_200sdp"
-        android:src="@drawable/splash_icon"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/splash_image"/>
 
 </LinearLayout>

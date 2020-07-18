@@ -8,4 +8,6 @@
     <color name="price_text">#707070</color>
     <color name="price_text_bold">#ffffff</color>
     <color name="temp">#FF5722</color>
+    <color name="temp_shadow">#51FDE5DE</color>
+    <color name="temp_shadow_temp">#14cccccc</color>
 </resources>

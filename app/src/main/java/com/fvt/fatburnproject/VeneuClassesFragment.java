@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -105,17 +106,23 @@ public class VeneuClassesFragment extends Fragment {
         Activity activity;
         String TAG;
         public class MyViewHolder extends RecyclerView.ViewHolder  {
-            ImageView image;
-            TextView name,day;
+            TextView name,day,wbxTime;
 
             public MyViewHolder(View view) {
                 super(view);
 //                sideImage=view.findViewById(R.id.side_image);
-                image=view.findViewById(R.id.select_image);
-                image.setVisibility(View.GONE);
+//                image=view.findViewById(R.id.select_image);
+//                image.setVisibility(View.GONE);
                 name=view.findViewById(R.id.day);
-//                day=view.findViewById(R.id.day);
+                day=view.findViewById(R.id.fbx_time);
 //                day.setVisibility(View.GONE);
+                wbxTime=view.findViewById(R.id.wbx_time);
+                wbxTime.setVisibility(View.GONE);
+                LinearLayout linearLayout=view.findViewById(R.id.types_layout);
+                linearLayout.setVisibility(View.GONE);
+                TextView textView=view.findViewById(R.id.select_type_text);
+                textView.setVisibility(View.GONE);
+
 
 
             }

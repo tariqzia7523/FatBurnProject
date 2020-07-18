@@ -68,9 +68,11 @@ public class AdminVeneuClassDetailActivity extends AppCompatActivity {
                             Log.e(TAG,"datashnap shot 1 id"+dataSnapshot1.getKey());
                             VeneuModel vm=dataSnapshot1.getValue(VeneuModel.class);
 //                            String[] separated = dataSnapshot1.getKey().split(":_:");
-                            String[] separated = vm.getPersonName().split(":_:");
+//                            String[] separated = vm.getPersonName().split(":_:");
+                            String[] separated = dataSnapshot1.getKey().split(":_:");
                             vm.setPersonName(separated[0]);
-                            list.add(vm);
+                            if(vm.getDay().equalsIgnoreCase(veneuModel.getDay()))
+                                list.add(vm);
 
                         }
                         myAdapter.notifyDataSetChanged();
