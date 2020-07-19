@@ -3,12 +3,20 @@ package com.fvt.fatburnproject;
 public class DayTimeModel {
     String day;
     String time;
+    String wbxTime;
     String seats;
-    String delay;
     boolean fbx;
     boolean wbx;
     String fbxSeats;
     String wbxSeats;
+
+    public String getWbxTime() {
+        return wbxTime;
+    }
+
+    public void setWbxTime(String wbxTime) {
+        this.wbxTime = wbxTime;
+    }
 
     public String getFbxSeats() {
         return fbxSeats;
@@ -26,13 +34,6 @@ public class DayTimeModel {
         this.wbxSeats = wbxSeats;
     }
 
-    public String getDelay() {
-        return delay;
-    }
-
-    public void setDelay(String delay) {
-        this.delay = delay;
-    }
 
     public boolean isFbx() {
         return fbx;

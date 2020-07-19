@@ -658,8 +658,8 @@ public class MyCartClient extends AppCompatActivity {
 //        }
 
 //        final OnlineClassModel model=data.get(position);
-            Log.e(TAG,"delye is "+classTimings.get(position).getDelay());
-            boolean tempStatus=false;
+//            Log.e(TAG,"delye is "+classTimings.get(position).getDelay());
+//            boolean tempStatus=false;
             if(!data.get(position).isFbxEnabled())
                 holder.fbx.setVisibility(View.GONE);
             else
@@ -740,33 +740,33 @@ public class MyCartClient extends AppCompatActivity {
 //                        classTimings.get(position).setWbx(isChecked);
                         data.get(position).setSelected(true);
 //                        totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
-                        String endTime = null;
-                        try {
-                            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa", Locale.US);
-                            Date now = formatter.parse(data.get(position).getTime());
-                            int dely=0;
-                           try{
-                               dely=Integer.parseInt(classTimings.get(0).getDelay());
-                           }catch (Exception c){
-                               c.printStackTrace();
-                               dely=0;
-                           }
-                            Log.e(TAG,"delay is "+dely);
+//                        String endTime = null;
+//                        try {
+//                            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm aa", Locale.US);
+//                            Date now = formatter.parse(data.get(position).getTime());
+//                            int dely=0;
+//                           try{
+//                               dely=Integer.parseInt(classTimings.get(0).getDelay());
+//                           }catch (Exception c){
+//                               c.printStackTrace();
+//                               dely=0;
+//                           }
+//                            Log.e(TAG,"delay is "+dely);
+////
+//                            Calendar calendar=Calendar.getInstance(Locale.US);
+//                            calendar.setTime(now);
+//                            DateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
+//                            Calendar cal = Calendar.getInstance();
+//                            cal.setTimeInMillis(now.getTime());
 //
-                            Calendar calendar=Calendar.getInstance(Locale.US);
-                            calendar.setTime(now);
-                            DateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTimeInMillis(now.getTime());
-
-
-                            cal.add(Calendar.MINUTE, dely);
-
-                            endTime = timeFormat.format(cal.getTime());
-//                            totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+//
+//                            cal.add(Calendar.MINUTE, dely);
+//
+//                            endTime = timeFormat.format(cal.getTime());
+////                            totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
 
 //                        holder.wbxtime.setVisibility(View.VISIBLE);
 //                        holder.wbxtime.setText(endTime+" Wbx " +" price "+wbxPrice);

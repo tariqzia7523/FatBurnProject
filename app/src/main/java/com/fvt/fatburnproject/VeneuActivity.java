@@ -154,7 +154,8 @@ public class VeneuActivity extends AppCompatActivity {
 
                 if(discountCheck){
                     discountPrice.setVisibility(View.VISIBLE);
-                    discountPrice.setText(discount+" discount with loyal10");
+
+                    discountPrice.setText(discount.substring(1)+"% discount with loyal10");
                 }else{
                     discountPrice.setVisibility(View.GONE);
                 }
@@ -224,9 +225,10 @@ public class VeneuActivity extends AppCompatActivity {
                             veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
                             veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
                             veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
-                            veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
+//                            veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
                             veneuModel.setFbx(dataSnapshot2.child("fbx").getValue(Boolean.class));
                             veneuModel.setWbx(dataSnapshot2.child("wbx").getValue(Boolean.class));
+                            veneuModel.setWbxTime(dataSnapshot2.child("wbxTime").getValue(String.class));
                             veneuModel.setSelected(false);
                             try{
                                 int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
@@ -292,9 +294,10 @@ public class VeneuActivity extends AppCompatActivity {
                                 veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
                                 veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
                                 veneuModel.setSelected(false);
-                                veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
+//                                veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
                                 veneuModel.setFbxEnabled(dataSnapshot2.child("fbx").getValue(Boolean.class));
                                 veneuModel.setWbxEnabled(dataSnapshot2.child("wbx").getValue(Boolean.class));
+                                veneuModel.setWbxTime(dataSnapshot2.child("wbxTime").getValue(String.class));
                                 try{
                                     int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
                                     if(s<=0){
@@ -492,7 +495,7 @@ public class VeneuActivity extends AppCompatActivity {
 //        }
 
 //        final OnlineClassModel model=data.get(position);
-            Log.e(TAG,"delye is "+classTimings.get(position).getDelay());
+//            Log.e(TAG,"delye is "+classTimings.get(position).getDelay());
             boolean tempStatus=false;
             if(!data.get(position).isFbxEnabled()) {
                 holder.fbx.setVisibility(View.GONE);
@@ -557,29 +560,31 @@ public class VeneuActivity extends AppCompatActivity {
             });
             holder.fbxTime.setText("FBX ("+fbxPrice+")"+ " -> "+
                     data.get(position).getTime()+" -> " +"Available spaces : "+data.get(position).getFbxSeats());
-            String endTime = null;
-            try {
-                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.US);
-                Date now = formatter.parse(data.get(position).getTime());
-                int dely=Integer.parseInt(classTimings.get(0).getDelay());
-                Log.e(TAG,"delay is "+dely);
-//
-                Calendar calendar=Calendar.getInstance(Locale.US);
-                calendar.setTime(now);
-                DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(now.getTime());
-
-
-                cal.add(Calendar.MINUTE, dely);
-
-                endTime = timeFormat.format(cal.getTime());
-                holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ endTime
+            holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ data.get(position).getWbxTime()
                         +" Available spaces : "+data.get(position).getFbxSeats());
-//                            totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            String endTime = null;
+//            try {
+//                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.US);
+//                Date now = formatter.parse(data.get(position).getTime());
+//                int dely=Integer.parseInt(classTimings.get(0).getDelay());
+//                Log.e(TAG,"delay is "+dely);
+////
+//                Calendar calendar=Calendar.getInstance(Locale.US);
+//                calendar.setTime(now);
+//                DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+//                Calendar cal = Calendar.getInstance();
+//                cal.setTimeInMillis(now.getTime());
+//
+//
+//                cal.add(Calendar.MINUTE, dely);
+//
+//                endTime = timeFormat.format(cal.getTime());
+//                holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ endTime
+//                        +" Available spaces : "+data.get(position).getFbxSeats());
+////                            totalText.setText("£"+priceAdder(holder.fbx,holder.wbx)+"");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
 //            holder.wbxtime.setVisibility(View.VISIBLE);
 //                        holder.wbxtime.setText(endTime+" Wbx " +" price "+wbxPrice);

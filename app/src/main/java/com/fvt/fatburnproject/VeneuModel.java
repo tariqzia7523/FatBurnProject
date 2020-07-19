@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class VeneuModel implements Serializable {
     String day;
     String time;
+    String wbxTime;
     String venue;
     String personName;
     String phoneNumber;
@@ -20,6 +21,14 @@ public class VeneuModel implements Serializable {
 
     String fbxSeats;
     String wbxSeats;
+
+    public String getWbxTime() {
+        return wbxTime;
+    }
+
+    public void setWbxTime(String wbxTime) {
+        this.wbxTime = wbxTime;
+    }
 
     public String getFbxSeats() {
         return fbxSeats;
@@ -58,15 +67,6 @@ public class VeneuModel implements Serializable {
     String id;
 
 
-    String delay;
-
-    public String getDelay() {
-        return delay;
-    }
-
-    public void setDelay(String delay) {
-        this.delay = delay;
-    }
 
     boolean fbx;
     boolean wbx;

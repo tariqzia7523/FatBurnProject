@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FatBurn-admin</string>
+    <string name="app_name">FatBurn</string>
     <string name="info_text">Fatburn Extreme is a new concept in instructor led fitness training and weight loss exercising. The first of its kind, it is a fixed 20 minute, maximal intensity workout with no dictated rest periods.\n\n This means participants will work until failure and rest only for recovery, making it specific to the individual regardless of age, gender, or current fitness capabilities.\n\n Now running in Newcastle - DM for info! </string>
     <string name="tab_text_1">Online Classes</string>
     <string name="tab_text_2">Venue Classes</string>
