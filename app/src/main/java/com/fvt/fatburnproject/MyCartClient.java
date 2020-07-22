@@ -673,7 +673,7 @@ public class MyCartClient extends AppCompatActivity {
             holder.wbx.setChecked(data.get(position).isWbx());
 
 
-            holder.day.setText(data.get(position).getDay());
+            holder.day.setText(data.get(position).getDay().replaceAll("1",""));
 //            classTimings.get(position).setFbx(false);
 //            classTimings.get(position).setWbx(false);
 

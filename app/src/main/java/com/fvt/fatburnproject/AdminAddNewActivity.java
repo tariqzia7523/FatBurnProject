@@ -41,6 +41,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
     EditText mondayTime,tusdayTime,wednesdayTime,thurdayTime,fridayTime,saturdayTime,sundayTime;
     EditText mondayTimeWbx,tusdayTimeWbx,wednesdayTimeWbx,thurdayTimeWbx,fridayTimeWbx,saturdayTimeWbx,sundayTimeWbx;
     EditText mondayseats,tusdayseats,wednesdayseats,thurdayseats,fridayseats,saturdayseats,sundayseats;
+    EditText mondayseatswbx,tusdayseatswbx,wednesdayseatswbx,thurdayseatswbx,fridayseatswbx,saturdayseatswbx,sundayseatswbx;
     DatabaseReference myRef,myRefBook;
     Spinner spinner,veneuNameSpinner;
     String selectedOption;
@@ -103,6 +104,16 @@ public class AdminAddNewActivity extends AppCompatActivity {
         fridayseats=findViewById(R.id.friday_seats);
         saturdayseats=findViewById(R.id.saturday_seats);
         sundayseats=findViewById(R.id.sunday_seats);
+
+        mondayseatswbx=findViewById(R.id.monday_wbx_seats);
+        tusdayseatswbx=findViewById(R.id.tuesday_seats_wbx);
+        wednesdayseatswbx=findViewById(R.id.wednesday_seats_wbx);
+        thurdayseatswbx=findViewById(R.id.thursday_seats_wbx);
+        fridayseatswbx=findViewById(R.id.friday_seats_wbx);
+        saturdayseatswbx=findViewById(R.id.saturday_seats_wbx);
+        sundayseatswbx=findViewById(R.id.sunday_seats_wbx);
+
+
         myRefBook = FirebaseDatabase.getInstance().getReference("Classes").child("Booked").child("VeneuClasses");
         myRefBook.child(selectedVeneu).addValueEventListener(new ValueEventListener() {
             @Override
@@ -130,6 +141,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mondayTime.setEnabled(isChecked);
                 mondayseats.setEnabled(isChecked);
+                mondayseatswbx.setEnabled(isChecked);
                 mondayTimeWbx.setEnabled(isChecked);
                 monFbx.setEnabled(isChecked);
                 monWbx.setEnabled(isChecked);
@@ -140,7 +152,8 @@ public class AdminAddNewActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 tusdayTime.setEnabled(isChecked);
-                tusdayTime.setEnabled(isChecked);
+                tusdayseats.setEnabled(isChecked);
+                tusdayseatswbx.setEnabled(isChecked);
                 tusdayTimeWbx.setEnabled(isChecked);
                 tueFbx.setEnabled(isChecked);
                 tueWbx.setEnabled(isChecked);
@@ -153,6 +166,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                 wednesdayTime.setEnabled(isChecked);
                 wednesdayTimeWbx.setEnabled(isChecked);
                 wednesdayseats.setEnabled(isChecked);
+                wednesdayseatswbx.setEnabled(isChecked);
                 wedFbx.setEnabled(isChecked);
                 wedWbx.setEnabled(isChecked);
             }
@@ -164,6 +178,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                 thurdayTime.setEnabled(isChecked);
                 thurdayTimeWbx.setEnabled(isChecked);
                 thurdayseats.setEnabled(isChecked);
+                thurdayseatswbx.setEnabled(isChecked);
                 thursFbx.setEnabled(isChecked);
                 thursWbx.setEnabled(isChecked);
 
@@ -176,6 +191,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                 fridayTime.setEnabled(isChecked);
                 fridayTimeWbx.setEnabled(isChecked);
                 fridayseats.setEnabled(isChecked);
+                fridayseatswbx.setEnabled(isChecked);
                 friFbx.setEnabled(isChecked);
                 friWbx.setEnabled(isChecked);
             }
@@ -187,6 +203,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                 saturdayTime.setEnabled(isChecked);
                 saturdayTimeWbx.setEnabled(isChecked);
                 saturdayseats.setEnabled(isChecked);
+                saturdayseatswbx.setEnabled(isChecked);
                 satFbx.setEnabled(isChecked);
                 satWbx.setEnabled(isChecked);
             }
@@ -198,6 +215,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                 sundayTime.setEnabled(isChecked);
                 sundayTimeWbx.setEnabled(isChecked);
                 sundayseats.setEnabled(isChecked);
+                sundayseatswbx.setEnabled(isChecked);
                 sunFbx.setEnabled(isChecked);
                 sunWbx.setEnabled(isChecked);
             }
@@ -349,6 +367,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setDay(dataSnapshot1.getKey());
                                 dayTimeModel.setTime(dataSnapshot1.child("time").getValue(String.class));
                                 dayTimeModel.setSeats(dataSnapshot1.child("seats").getValue(String.class));
+                                dayTimeModel.setWbxSeats(dataSnapshot1.child("wbxSeats").getValue(String.class));
                                 dayTimeModel.setWbxTime(dataSnapshot1.child("wbxTime").getValue(String.class));
 //                                try{
 //                                    veneClassDelay.setText(dataSnapshot1.child("delay").getValue(String.class));
@@ -504,7 +523,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(monWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(mondayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(mondayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(mondayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -513,6 +532,27 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(monFbx.isChecked());
                                 dayTimeModel.setWbx(monWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!mondayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Monday1");
+                                    dayTimeModel.setTime(mondayTime.getText().toString());
+                                    dayTimeModel.setSeats(mondayseats.getText().toString());
+                                    if(monFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(mondayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(monWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(mondayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(mondayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                        dayTimeModel.setWbxTime("");
+                                    }
+                                    dayTimeModel.setFbx(monFbx.isChecked());
+                                    dayTimeModel.setWbx(monWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         if(cbTuesday.isChecked()){
@@ -543,7 +583,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(tueWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(tusdayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(tusdayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(tusdayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -553,6 +593,28 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(tueFbx.isChecked());
                                 dayTimeModel.setWbx(tueWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!tusdayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Tuesday1");
+                                    dayTimeModel.setTime(tusdayTime.getText().toString());
+                                    dayTimeModel.setSeats(tusdayseats.getText().toString());
+                                    if(tueFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(tusdayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(tueWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(tusdayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(tusdayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                        dayTimeModel.setWbxTime("");
+                                    }
+//                                dayTimeModel.setDelay(veneClassDelay.getText().toString());
+                                    dayTimeModel.setFbx(tueFbx.isChecked());
+                                    dayTimeModel.setWbx(tueWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         if(cbWednessday.isChecked()){
@@ -584,7 +646,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(wedWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(wednesdayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(wednesdayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(wednesdayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -595,6 +657,29 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(wedFbx.isChecked());
                                 dayTimeModel.setWbx(wedWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!wednesdayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Wednesday1");
+                                    dayTimeModel.setTime(wednesdayTime.getText().toString());
+                                    dayTimeModel.setSeats(wednesdayseats.getText().toString());
+                                    if(wedFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(wednesdayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(wedWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(wednesdayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(wednesdayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                        dayTimeModel.setWbxTime("");
+
+                                    }
+//                                dayTimeModel.setDelay(veneClassDelay.getText().toString());
+                                    dayTimeModel.setFbx(wedFbx.isChecked());
+                                    dayTimeModel.setWbx(wedWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         if(cbThurday.isChecked()){
@@ -625,7 +710,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(thursWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(thurdayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(thurdayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(thurdayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -634,6 +719,27 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(thursFbx.isChecked());
                                 dayTimeModel.setWbx(thursWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!thurdayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Thursday1");
+                                    dayTimeModel.setTime(thurdayTime.getText().toString());
+                                    dayTimeModel.setSeats(thurdayseats.getText().toString());
+                                    if(thursFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(thurdayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(thursWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(thurdayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(thurdayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                        dayTimeModel.setWbxTime("");
+                                    }
+                                    dayTimeModel.setFbx(thursFbx.isChecked());
+                                    dayTimeModel.setWbx(thursWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         if(cbFriDay.isChecked()){
@@ -665,7 +771,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(friWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(fridayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(fridayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(fridayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -674,6 +780,28 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(friFbx.isChecked());
                                 dayTimeModel.setWbx(friWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!fridayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Friday1");
+                                    dayTimeModel.setTime(fridayTime.getText().toString());
+                                    dayTimeModel.setSeats(fridayseats.getText().toString());
+//                                dayTimeModel.setSeats(saturdayseats.getText().toString());
+                                    if(friFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(fridayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(friWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(fridayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(fridayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                    }
+//                                dayTimeModel.setDelay(veneClassDelay.getText().toString());
+                                    dayTimeModel.setFbx(friFbx.isChecked());
+                                    dayTimeModel.setWbx(friWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         if(cbSaturday.isChecked()){
@@ -704,7 +832,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(satWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(saturdayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(saturdayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(saturdayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -713,6 +841,27 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(satFbx.isChecked());
                                 dayTimeModel.setWbx(satWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!saturdayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Saturday1");
+                                    dayTimeModel.setTime(saturdayTime.getText().toString());
+                                    dayTimeModel.setSeats(saturdayseats.getText().toString());
+                                    if(satFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(saturdayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(satWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(saturdayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(saturdayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                    }
+//                                dayTimeModel.setDelay(veneClassDelay.getText().toString());
+                                    dayTimeModel.setFbx(satFbx.isChecked());
+                                    dayTimeModel.setWbx(satWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         if(cbSunday.isChecked()){
@@ -743,7 +892,7 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                     dayTimeModel.setFbxSeats("0");
                                 }
                                 if(sunWbx.isChecked()){
-                                    dayTimeModel.setWbxSeats(sundayseats.getText().toString());
+                                    dayTimeModel.setWbxSeats(sundayseatswbx.getText().toString());
                                     dayTimeModel.setWbxTime(sundayTimeWbx.getText().toString());
                                 }else{
                                     dayTimeModel.setWbxSeats("0");
@@ -755,6 +904,30 @@ public class AdminAddNewActivity extends AppCompatActivity {
                                 dayTimeModel.setFbx(sunFbx.isChecked());
                                 dayTimeModel.setWbx(sunWbx.isChecked());
                                 days.add(dayTimeModel);
+                                if(!sundayTimeWbx.getText().toString().isEmpty()){
+                                    dayTimeModel=new DayTimeModel();
+                                    dayTimeModel.setDay("Sunday1");
+                                    dayTimeModel.setTime(sundayTime.getText().toString());
+                                    dayTimeModel.setSeats(sundayseats.getText().toString());
+                                    if(sunFbx.isChecked()){
+                                        dayTimeModel.setFbxSeats(sundayseats.getText().toString());
+                                    }else{
+                                        dayTimeModel.setFbxSeats("0");
+                                    }
+                                    if(sunWbx.isChecked()){
+                                        dayTimeModel.setWbxSeats(sundayseatswbx.getText().toString());
+                                        dayTimeModel.setWbxTime(sundayTimeWbx.getText().toString());
+                                    }else{
+                                        dayTimeModel.setWbxSeats("0");
+                                        dayTimeModel.setWbxTime("");
+                                    }
+
+//                                dayTimeModel.setWbxSeats(mondayseats.getText().toString());
+//                                dayTimeModel.setDelay(veneClassDelay.getText().toString());
+                                    dayTimeModel.setFbx(sunFbx.isChecked());
+                                    dayTimeModel.setWbx(sunWbx.isChecked());
+                                    days.add(dayTimeModel);
+                                }
                             }
                         }
                         progressDialog.show();
@@ -859,36 +1032,43 @@ public class AdminAddNewActivity extends AppCompatActivity {
                 cbMonday.setChecked(true);
                 mondayTime.setText(dayTimeModels.get(i).getTime());
                 mondayseats.setText(dayTimeModels.get(i).getSeats());
+                mondayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 mondayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }else if(dayTimeModels.get(i).getDay().equalsIgnoreCase("Tuesday")){
                 cbTuesday.setChecked(true);
                 tusdayTime.setText(dayTimeModels.get(i).getTime());
                 tusdayseats.setText(dayTimeModels.get(i).getSeats());
+                tusdayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 tusdayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }else if(dayTimeModels.get(i).getDay().equalsIgnoreCase("Wednesday")){
                 cbWednessday.setChecked(true);
                 wednesdayTime.setText(dayTimeModels.get(i).getTime());
                 wednesdayseats.setText(dayTimeModels.get(i).getSeats());
+                wednesdayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 wednesdayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }else if(dayTimeModels.get(i).getDay().equalsIgnoreCase("Thursday")){
                 cbThurday.setChecked(true);
                 thurdayTime.setText(dayTimeModels.get(i).getTime());
                 thurdayseats.setText(dayTimeModels.get(i).getSeats());
+                thurdayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 thurdayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }else if(dayTimeModels.get(i).getDay().equalsIgnoreCase("Friday")){
                 cbFriDay.setChecked(true);
                 fridayTime.setText(dayTimeModels.get(i).getTime());
                 fridayseats.setText(dayTimeModels.get(i).getSeats());
+                fridayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 fridayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }else if(dayTimeModels.get(i).getDay().equalsIgnoreCase("Saturday")){
                 cbSaturday.setChecked(true);
                 saturdayTime.setText(dayTimeModels.get(i).getTime());
                 saturdayseats.setText(dayTimeModels.get(i).getSeats());
+                saturdayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 saturdayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }else if(dayTimeModels.get(i).getDay().equalsIgnoreCase("Sunday")){
                 cbSunday.setChecked(true);
                 sundayTime.setText(dayTimeModels.get(i).getTime());
                 sundayseats.setText(dayTimeModels.get(i).getSeats());
+                sundayseatswbx.setText(dayTimeModels.get(i).getWbxSeats());
                 sundayTimeWbx.setText(dayTimeModels.get(i).getWbxTime());
             }
         }

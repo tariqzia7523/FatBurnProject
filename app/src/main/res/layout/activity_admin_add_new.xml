@@ -47,7 +47,7 @@
                     android:gravity="center"/>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -80,9 +80,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/monday_seats"
                                 android:layout_toLeftOf="@+id/cb_monday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter Fbx class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/monday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/monday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter FBX Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/monday_time_wbx"
                                 android:layout_width="match_parent"
@@ -92,16 +102,16 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/monday_seats"
                                 android:layout_toLeftOf="@+id/cb_monday"
-                                android:hint="Enter Wbx class Time"
+                                android:hint="Enter WTB class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/monday" />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/monday_seats"
+                                android:id="@+id/monday_wbx_seats"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB  Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView
@@ -142,7 +152,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -175,9 +185,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/tuesday_seats"
                                 android:layout_toLeftOf="@+id/cb_tuesday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/tuesday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tuesday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/tuesday_time_wbx"
                                 android:layout_width="match_parent"
@@ -187,16 +207,16 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/tuesday_seats"
                                 android:layout_toLeftOf="@+id/cb_tuesday"
-                                android:hint="Enter Wbx class Time"
+                                android:hint="Enter WTB class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/tuesday" />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/tuesday_seats"
+                                android:id="@+id/tuesday_seats_wbx"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView
@@ -237,7 +257,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -271,9 +291,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/wednesday_seats"
                                 android:layout_toLeftOf="@+id/cb_wednesday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/wednesday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/wednesday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter FBX Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/wednesday_time_wbx"
                                 android:layout_width="match_parent"
@@ -283,16 +313,16 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/wednesday_seats"
                                 android:layout_toLeftOf="@+id/cb_wednesday"
-                                android:hint="Enter Wbx class Time"
+                                android:hint="Enter WTB class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/wednesday" />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/wednesday_seats"
+                                android:id="@+id/wednesday_seats_wbx"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView
@@ -332,7 +362,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -365,9 +395,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/thursday_seats"
                                 android:layout_toLeftOf="@+id/cb_thursday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/thursday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/thursday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter FBX Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/thursday_time_wbx"
                                 android:layout_width="match_parent"
@@ -383,10 +423,10 @@
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/thursday_seats"
+                                android:id="@+id/thursday_seats_wbx"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView
@@ -426,7 +466,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -459,9 +499,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/friday_seats"
                                 android:layout_toLeftOf="@+id/cb_friday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/friday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/friday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter FBX  Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/friday_time_wbx"
                                 android:layout_width="match_parent"
@@ -471,16 +521,16 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/friday_seats"
                                 android:layout_toLeftOf="@+id/cb_friday"
-                                android:hint="Enter Wbx class Time"
+                                android:hint="Enter WTB class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/friday" />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/friday_seats"
+                                android:id="@+id/friday_seats_wbx"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView
@@ -520,7 +570,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -556,6 +606,16 @@
                                 android:hint="Enter class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/saturday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/saturday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter FBX Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/saturday_time_wbx"
                                 android:layout_width="match_parent"
@@ -571,10 +631,10 @@
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/saturday_seats"
+                                android:id="@+id/saturday_seats_wbx"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView
@@ -614,7 +674,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_220sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -647,9 +707,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/sunday_seats"
                                 android:layout_toLeftOf="@+id/cb_sunday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/sunday" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sunday_seats"
+                                android:layout_alignParentBottom="true"
+                                android:inputType="number"
+                                android:hint="Enter FBX Available spaces"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_10sdp"/>
                             <EditText
                                 android:id="@+id/sunday_time_wbx"
                                 android:layout_width="match_parent"
@@ -659,16 +729,16 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/sunday_seats"
                                 android:layout_toLeftOf="@+id/cb_sunday"
-                                android:hint="Enter Wbx class Time"
+                                android:hint="Enter WTB class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/sunday" />
                             <EditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/sunday_seats"
+                                android:id="@+id/sunday_seats_wbx"
                                 android:layout_alignParentBottom="true"
                                 android:inputType="number"
-                                android:hint="Enter Available spaces"
+                                android:hint="Enter WTB Available spaces"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"/>
                             <TextView

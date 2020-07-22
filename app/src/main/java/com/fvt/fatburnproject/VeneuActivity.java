@@ -262,6 +262,9 @@ public class VeneuActivity extends AppCompatActivity {
 
                     progressDialog.dismiss();
                     myAdapter.notifyDataSetChanged();
+                    recyclerView.scrollToPosition(classTimings.size());
+                    recyclerView.scrollToPosition(0);
+
 
                 }catch (Exception c){
                     c.printStackTrace();
@@ -330,6 +333,8 @@ public class VeneuActivity extends AppCompatActivity {
                             }
                         progressDialog.dismiss();
                         myAdapter.notifyDataSetChanged();
+                        recyclerView.scrollToPosition(classTimings.size());
+                        recyclerView.scrollToPosition(0);
                     }
 
                     @Override
@@ -394,6 +399,8 @@ public class VeneuActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         myAdapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(classTimings.size());
+        recyclerView.scrollToPosition(0);
     }
 
     public int  paymentpaypalname() {
@@ -512,11 +519,11 @@ public class VeneuActivity extends AppCompatActivity {
                 holder.wbx.setVisibility(View.VISIBLE);
                 holder.wbxtime.setVisibility(View.VISIBLE);
             }
-            holder.day.setText(data.get(position).getDay());
+//            holder.day.setText(data.get(position).getDay().replace("1",""));
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
             Date d = new Date();
             String dayOfTheWeek = sdf.format(d);
-            if(dayOfTheWeek.equalsIgnoreCase(data.get(position).getDay())){
+            if(dayOfTheWeek.equalsIgnoreCase(data.get(position).getDay().replace("1",""))){
                 Calendar cal = GregorianCalendar.getInstance();
                 cal.setTime(new Date());
                 cal.add(Calendar.DAY_OF_YEAR, 7);
@@ -530,7 +537,7 @@ public class VeneuActivity extends AppCompatActivity {
                 SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE dd/MM/yyyy");
                 for (int i = 0; i < 7; i++) {
                     String string=sdf2.format(cal.getTime());
-                    if(string.contains(data.get(position).getDay())){
+                    if(string.contains(data.get(position).getDay().replace("1",""))){
                         holder.day.setText(string);
                         break;
                     }
@@ -608,7 +615,7 @@ public class VeneuActivity extends AppCompatActivity {
                        }
                    }
                    classTimings.get(position).setFbx(isChecked);
-                   totalText.setText("Added to cart : £"+priceChanger()+"");
+                   totalText.setText("Add to cart : £"+priceChanger()+"");
 
                    addtoCart(position);
 
@@ -679,7 +686,7 @@ public class VeneuActivity extends AppCompatActivity {
 
                     }
                     classTimings.get(position).setWbx(isChecked);
-                    totalText.setText("Added to cart : £"+priceChanger()+"");
+                    totalText.setText("Add to cart : £"+priceChanger()+"");
 
                     addtoCart(position);
                 }

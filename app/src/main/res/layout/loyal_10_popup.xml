@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter Coupon"
+            android:text="Enter Voucher"
             android:gravity="center"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -22,7 +22,7 @@
             android:id="@+id/coupne"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_75sdp"
-            android:hint="Enter Coupon"
+            android:hint="Enter Voucher"
             android:gravity="center|left"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingBottom="@dimen/_7sdp"
