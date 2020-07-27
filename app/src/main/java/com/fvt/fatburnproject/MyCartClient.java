@@ -103,7 +103,14 @@ public class MyCartClient extends AppCompatActivity {
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+//                onBackPressed();
+                if(flag==0){
+                    startActivity(new Intent(MyCartClient.this,MainActivity.class));
+                    finish();
+                }else{
+                    startActivity(new Intent(MyCartClient.this,VeneuActivity.class));
+                    finish();
+                }
             }
         });
         progressDialog=new ProgressDialog(MyCartClient.this);
@@ -198,7 +205,12 @@ public class MyCartClient extends AppCompatActivity {
         findViewById(R.id.pay_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                discountpopUp(1);
+                if(discountCheck){
+                    discountpopUp(1);
+                }else{
+                    proceedCall(1);
+                }
+
 //                try{
 ////                    int seats=Integer.parseInt(veneuModel.getTotalSeats());
 ////                    if(seats<=0){
@@ -219,7 +231,12 @@ public class MyCartClient extends AppCompatActivity {
         findViewById(R.id.pay_with_paypal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                discountpopUp(2);
+                if(discountCheck){
+                    discountpopUp(2);
+                }else{
+                    proceedCall(2);
+                }
+
 //                try{
 ////                    int seats=Integer.parseInt(veneuModel.getTotalSeats());
 ////                    if(seats<=0){
@@ -305,6 +322,14 @@ public class MyCartClient extends AppCompatActivity {
         }
 
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
     public int  paymentpaypalname() {
         Log.e(TAG,"payment called");
 //        Context c = getApplicationContext();
@@ -555,6 +580,12 @@ public class MyCartClient extends AppCompatActivity {
             }
             Log.e("stripePayment", "Error: " +e.getLocalizedMessage());
             e.printStackTrace();
+            try{
+                progressDialog.dismiss();
+                erroeInPayment(e.getLocalizedMessage());
+            }catch (Exception c){
+                c.printStackTrace();
+            }
         }
 
     }
@@ -1101,6 +1132,21 @@ public class MyCartClient extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
             }
         });
+
+        alertDialog.show();
+    }
+
+    public void erroeInPayment(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(MyCartClient.this).create();
+        alertDialog.setMessage(message);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+        alertDialog.setCancelable(true);
 
         alertDialog.show();
     }

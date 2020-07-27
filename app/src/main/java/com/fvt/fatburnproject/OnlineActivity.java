@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,6 +87,7 @@ public class OnlineActivity extends AppCompatActivity {
         secretKey=StripsIDsClass.getSecretEKey();
         android_id = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+        FirebaseApp.initializeApp(this);
 //        secretKey="sk_test_t2qvlU7H89Zpv06cvs9CSGxf00QK7CthR0";
         publishableKey=StripsIDsClass.getPubliserKey();
 //        publishableKey="pk_test_hUE52VSBGt7oUf7AORrcPRpD0024H5exOY";
@@ -429,8 +431,27 @@ public class OnlineActivity extends AppCompatActivity {
             }
             Log.e("stripePayment", "Error: " +e.getLocalizedMessage());
             e.printStackTrace();
+            try{
+                progressDialog.dismiss();
+                errorPop(e.getLocalizedMessage());
+            }catch (Exception c){
+                c.printStackTrace();
+            }
         }
 
+    }
+    public void errorPop(String text){
+        AlertDialog alertDialog = new AlertDialog.Builder(OnlineActivity.this).create();
+        alertDialog.setMessage(text);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+//                Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void addDataToBookedNode() {

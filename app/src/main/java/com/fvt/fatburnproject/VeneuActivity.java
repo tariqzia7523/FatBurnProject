@@ -31,6 +31,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -102,8 +104,25 @@ public class VeneuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veneu);
+        setupdata();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        setupdata();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    public void setupdata(){
         veneuModels=new ArrayList<>();
         getSupportActionBar().hide();
+        FirebaseApp.initializeApp(this);
         android_id = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         progressDialog=new ProgressDialog(VeneuActivity.this);
@@ -122,8 +141,13 @@ public class VeneuActivity extends AppCompatActivity {
         totalText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(VeneuActivity.this,MyCartClient.class).putExtra("flag",1));
-                finish();
+                if(totalPrice<1){
+                    Toast.makeText(getApplicationContext(),"No thing selected",Toast.LENGTH_LONG).show();
+                }else{
+                    startActivity(new Intent(VeneuActivity.this,MyCartClient.class).putExtra("flag",1));
+                    finish();
+                }
+
             }
         });
         Log.e(TAG,"vence activity called");
@@ -202,7 +226,7 @@ public class VeneuActivity extends AppCompatActivity {
             }
         });
         progressDialog.show();
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try{
@@ -215,55 +239,97 @@ public class VeneuActivity extends AppCompatActivity {
                             new ArrayAdapter<String>(getApplicationContext(),  R.layout.spinner_item, venuesNames);
                     adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
-
-                        for(DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
-                            Log.e(TAG,dataSnapshot2.getKey()+" is id");
-                            VeneuModel veneuModel=new VeneuModel();
-                            veneuModel.setVenue(venuesNames.get(0));
-                            veneuModel.setDay(dataSnapshot2.getKey());
-                            veneuModel.setTotalSeats(dataSnapshot2.child("seats").getValue(String.class));
-                            veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
-                            veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
-                            veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
+//                    myRefCart.child(android_id).child(data.get(position).getVenue()).child(data.get(position).getDay()).child("fbx");
+                    for(DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
+                        Log.e(TAG,"my requireed id");
+                        Log.e(TAG,dataSnapshot2.getKey()+" is id");
+                        VeneuModel veneuModel=new VeneuModel();
+                        veneuModel.setVenue(venuesNames.get(0));
+                        veneuModel.setDay(dataSnapshot2.getKey());
+                        veneuModel.setTotalSeats(dataSnapshot2.child("seats").getValue(String.class));
+                        veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                        veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
+                        veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
 //                            veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
+                        try{
                             veneuModel.setFbx(dataSnapshot2.child("fbx").getValue(Boolean.class));
-                            veneuModel.setWbx(dataSnapshot2.child("wbx").getValue(Boolean.class));
-                            veneuModel.setWbxTime(dataSnapshot2.child("wbxTime").getValue(String.class));
-                            veneuModel.setSelected(false);
-                            try{
-                                int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
-                                if(s<=0){
-                                    veneuModel.setFbxEnabled(false);
-//                                    classTimings.add(veneuModel);
-                                }else{
-                                    veneuModel.setFbxSeats(s+"");
-                                    veneuModel.setFbxEnabled(true);
-//                                    classTimings.add(veneuModel);
-                                }
-                            }catch (Exception c){
-                                c.printStackTrace();
-                            }
-                            try{
-                                int s=Integer.parseInt(dataSnapshot2.child("wbxSeats").getValue(String.class));
-                                if(s<=0){
-                                    veneuModel.setWbxEnabled(false);
-//                                    classTimings.add(veneuModel);
-                                }else{
-                                    veneuModel.setWbxSeats(s+"");
-                                    veneuModel.setWbxEnabled(true);
-//                                    classTimings.add(veneuModel);
-                                }
-                            }catch (Exception c){
-                                c.printStackTrace();
-                            }
-                            classTimings.add(veneuModel);
+                        }catch (Exception c){
+                            c.printStackTrace();
+                            veneuModel.setFbx(false);
                         }
+                        try{
+                            veneuModel.setWbx(dataSnapshot2.child("wbx").getValue(Boolean.class));
+                        }catch (Exception c){
+                            c.printStackTrace();
+                            veneuModel.setWbx(false);
+                        }
+                        veneuModel.setWbxTime(dataSnapshot2.child("wbxTime").getValue(String.class));
+                        veneuModel.setSelected(false);
+                        try{
+                            int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                            if(s<=0){
+                                veneuModel.setFbxEnabled(false);
+//                                    classTimings.add(veneuModel);
+                            }else{
+                                veneuModel.setFbxSeats(s+"");
+                                veneuModel.setFbxEnabled(true);
+//                                    classTimings.add(veneuModel);
+                            }
+                        }catch (Exception c){
+                            c.printStackTrace();
+                        }
+                        try{
+                            int s=Integer.parseInt(dataSnapshot2.child("wbxSeats").getValue(String.class));
+                            if(s<=0){
+                                veneuModel.setWbxEnabled(false);
+//                                    classTimings.add(veneuModel);
+                            }else{
+                                veneuModel.setWbxSeats(s+"");
+                                veneuModel.setWbxEnabled(true);
+//                                    classTimings.add(veneuModel);
+                            }
+                        }catch (Exception c){
+                            c.printStackTrace();
+                        }
+//                        try{
+//                            myRefCart.child(android_id).child(venuesNames.get(0)).child(dataSnapshot2.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    try{
+//                                        veneuModel.setFbx(dataSnapshot.child("fbx").getValue(Boolean.class));
+//                                    }catch (Exception c){
+//                                        c.printStackTrace();
+//                                        veneuModel.setFbx(false);
+//                                    }
+//                                    try{
+//                                        veneuModel.setWbx(dataSnapshot.child("wbx").getValue(Boolean.class));
+//                                    }catch (Exception c){
+//                                        c.printStackTrace();
+//                                        veneuModel.setWbx(false);
+//                                    }
+//                                    classTimings.add(veneuModel);
+//                                    recyclerView.smoothScrollToPosition(classTimings.size());
+//                                    recyclerView.smoothScrollToPosition(0);
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                }
+//                            });
+//                        }catch (Exception c){
+//                            c.printStackTrace();
+//                        }
+                        classTimings.add(veneuModel);
+                        recyclerView.scrollToPosition(classTimings.size());
+//                        recyclerView.smoothScrollToPosition(0);
+                    }
 
 
                     progressDialog.dismiss();
                     myAdapter.notifyDataSetChanged();
-                    recyclerView.scrollToPosition(classTimings.size());
-                    recyclerView.scrollToPosition(0);
+                    recyclerView.smoothScrollToPosition(classTimings.size());
+//                    recyclerView.smoothScrollToPosition(0);
 
 
                 }catch (Exception c){
@@ -282,59 +348,59 @@ public class VeneuActivity extends AppCompatActivity {
                 // your code here
                 String selectedItemText = (String) parentView.getItemAtPosition(position);
                 progressDialog.show();
-                myRef.child(selectedItemText).addValueEventListener(new ValueEventListener() {
+                myRef.child(selectedItemText).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         classTimings.clear();
-                            for(DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
-                                Log.e(TAG,dataSnapshot2.getKey()+" is id");
-                                VeneuModel veneuModel=new VeneuModel();
-                                veneuModel.setVenue(selectedItemText);
-                                veneuModel.setDay(dataSnapshot2.getKey());
+                        for(DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
+                            Log.e(TAG,dataSnapshot2.getKey()+" is id");
+                            VeneuModel veneuModel=new VeneuModel();
+                            veneuModel.setVenue(selectedItemText);
+                            veneuModel.setDay(dataSnapshot2.getKey());
 
-                                veneuModel.setTotalSeats(dataSnapshot2.child("seats").getValue(String.class));
-                                veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
-                                veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
-                                veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
-                                veneuModel.setSelected(false);
+                            veneuModel.setTotalSeats(dataSnapshot2.child("seats").getValue(String.class));
+                            veneuModel.setFbxSeats(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                            veneuModel.setWbxSeats(dataSnapshot2.child("wbxSeats").getValue(String.class));
+                            veneuModel.setTime(dataSnapshot2.child("time").getValue(String.class));
+                            veneuModel.setSelected(false);
 //                                veneuModel.setDelay(dataSnapshot2.child("delay").getValue(String.class));
-                                veneuModel.setFbxEnabled(dataSnapshot2.child("fbx").getValue(Boolean.class));
-                                veneuModel.setWbxEnabled(dataSnapshot2.child("wbx").getValue(Boolean.class));
-                                veneuModel.setWbxTime(dataSnapshot2.child("wbxTime").getValue(String.class));
-                                try{
-                                    int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
-                                    if(s<=0){
-                                        veneuModel.setFbxEnabled(false);
+                            veneuModel.setFbxEnabled(dataSnapshot2.child("fbx").getValue(Boolean.class));
+                            veneuModel.setWbxEnabled(dataSnapshot2.child("wbx").getValue(Boolean.class));
+                            veneuModel.setWbxTime(dataSnapshot2.child("wbxTime").getValue(String.class));
+                            try{
+                                int s=Integer.parseInt(dataSnapshot2.child("fbxSeats").getValue(String.class));
+                                if(s<=0){
+                                    veneuModel.setFbxEnabled(false);
 //                                        classTimings.add(veneuModel);
-                                    }else{
-                                        veneuModel.setFbxSeats(s+"");
-                                        veneuModel.setFbxEnabled(true);
+                                }else{
+                                    veneuModel.setFbxSeats(s+"");
+                                    veneuModel.setFbxEnabled(true);
 //                                        classTimings.add(veneuModel);
-                                    }
+                                }
 
-                                }catch (Exception c){
-                                    c.printStackTrace();
-                                }
-                                try{
-                                    int s=Integer.parseInt(dataSnapshot2.child("wbxSeats").getValue(String.class));
-                                    if(s<=0){
-                                        veneuModel.setWbxEnabled(false);
-//                                        classTimings.add(veneuModel);
-                                    }else{
-                                        veneuModel.setWbxSeats(s+"");
-                                        veneuModel.setWbxEnabled(true);
-//                                        classTimings.add(veneuModel);
-                                    }
-//                                    classTimings.add(veneuModel);
-                                }catch (Exception c){
-                                    c.printStackTrace();
-                                }
-                                classTimings.add(veneuModel);
+                            }catch (Exception c){
+                                c.printStackTrace();
                             }
+                            try{
+                                int s=Integer.parseInt(dataSnapshot2.child("wbxSeats").getValue(String.class));
+                                if(s<=0){
+                                    veneuModel.setWbxEnabled(false);
+//                                        classTimings.add(veneuModel);
+                                }else{
+                                    veneuModel.setWbxSeats(s+"");
+                                    veneuModel.setWbxEnabled(true);
+//                                        classTimings.add(veneuModel);
+                                }
+//                                    classTimings.add(veneuModel);
+                            }catch (Exception c){
+                                c.printStackTrace();
+                            }
+                            classTimings.add(veneuModel);
+                        }
                         progressDialog.dismiss();
                         myAdapter.notifyDataSetChanged();
-                        recyclerView.scrollToPosition(classTimings.size());
-                        recyclerView.scrollToPosition(0);
+                        recyclerView.smoothScrollToPosition(classTimings.size());
+                        recyclerView.smoothScrollToPosition(0);
                     }
 
                     @Override
@@ -364,7 +430,7 @@ public class VeneuActivity extends AppCompatActivity {
                         paymentiflatecall(totalPrice);
                     else
                         Toast.makeText(getApplicationContext(),"Please select Class type",Toast.LENGTH_LONG).show();
-                        Toast.makeText(getApplicationContext(),"Price "+totalPrice,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Price "+totalPrice,Toast.LENGTH_LONG).show();
                 }catch (Exception c){
                     c.printStackTrace();
                     Toast.makeText(getApplicationContext(),"Please select class timming",Toast.LENGTH_LONG).show();
@@ -393,14 +459,9 @@ public class VeneuActivity extends AppCompatActivity {
             }
         });
         congifPaypal();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        myAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(classTimings.size());
-        recyclerView.scrollToPosition(0);
+//        myAdapter.notifyDataSetChanged();
+//        recyclerView.scrollToPosition(classTimings.size());
+//        recyclerView.scrollToPosition(0);
     }
 
     public int  paymentpaypalname() {
@@ -550,6 +611,8 @@ public class VeneuActivity extends AppCompatActivity {
             classTimings.get(position).setWbx(false);
 
 //            holder.day.setText(data.get(position).getDay()+" Time "+data.get(position).getTime()+ " price "+fbxPrice);
+
+
             myRefCart.child(android_id).child(data.get(position).getVenue()).child(data.get(position).getDay()).child("fbx").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -568,7 +631,7 @@ public class VeneuActivity extends AppCompatActivity {
             holder.fbxTime.setText("FBX ("+fbxPrice+")"+ " -> "+
                     data.get(position).getTime()+" -> " +"Available spaces : "+data.get(position).getFbxSeats());
             holder.wbxtime.setText("WTB ("+wbxPrice+")"+ " -> "+ data.get(position).getWbxTime()
-                        +" Available spaces : "+data.get(position).getFbxSeats());
+                        +" Available spaces : "+data.get(position).getWbxSeats());
 //            String endTime = null;
 //            try {
 //                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.US);
@@ -765,6 +828,7 @@ public class VeneuActivity extends AppCompatActivity {
 
 
     public void addtoCart(int i){
+        progressDialog.show();
         String type="";
         if(classTimings.get(i).isFbx()){
             type=type+",FBX";
@@ -791,21 +855,33 @@ public class VeneuActivity extends AppCompatActivity {
             type=type.substring(1,type.length());
         }catch (Exception c){
             c.printStackTrace();
+            progressDialog.dismiss();
         }
 
         classTimings.get(i).setType(type);
 //        classTimings.get(i).setTransectionId(transectionId);
 //        classTimings.get(i).setPaymentId(paymentId);
 //        classTimings.get(i).setPhoneNumber(phone);
-        if(classTimings.get(i).isSelected()){
-            myRefCart.child(android_id).child( classTimings.get(i).getVenue())
-                    .child(classTimings.get(i).getDay()).setValue(classTimings.get(i));
-//            myRefCart.child( classTimings.get(i).getVenue()).child(personName+i).setValue( classTimings.get(i));
-//                int seats=Integer.parseInt( classTimings.get(i).getTotalSeats());
-//                seats--;
-//                myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("seats").setValue(seats+"");
-
-        }
+        myRefCart.child(android_id).child( classTimings.get(i).getVenue())
+                .child(classTimings.get(i).getDay()).setValue(classTimings.get(i)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                progressDialog.dismiss();
+            }
+        });
+//        if(classTimings.get(i).isSelected()){
+//            myRefCart.child(android_id).child( classTimings.get(i).getVenue())
+//                    .child(classTimings.get(i).getDay()).setValue(classTimings.get(i)).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                @Override
+//                public void onSuccess(Void aVoid) {
+//                    progressDialog.dismiss();
+//                }
+//            });
+////            myRefCart.child( classTimings.get(i).getVenue()).child(personName+i).setValue( classTimings.get(i));
+////                int seats=Integer.parseInt( classTimings.get(i).getTotalSeats());
+////                seats--;
+////                myRef.child( classTimings.get(i).getVenue()).child( classTimings.get(i).getDay()).child("seats").setValue(seats+"");
+//        }
 
     }
 
@@ -1013,6 +1089,12 @@ public class VeneuActivity extends AppCompatActivity {
             }
             Log.e("stripePayment", "Error: " +e.getLocalizedMessage());
             e.printStackTrace();
+            try{
+                errorPop(e.getLocalizedMessage());
+                progressDialog.dismiss();
+            }catch (Exception c){
+                c.printStackTrace();
+            }
         }
 
     }
@@ -1120,6 +1202,19 @@ public class VeneuActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    public void errorPop(String text){
+        AlertDialog alertDialog = new AlertDialog.Builder(VeneuActivity.this).create();
+        alertDialog.setMessage(text);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+//                Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.show();
+    }
 
 
      class TypeModel implements Serializable{
@@ -1282,6 +1377,8 @@ public class VeneuActivity extends AppCompatActivity {
 //        totalPrice=Double.parseDouble(String.format("%.2f", totalPrice));
 //        return  totalPrice;
 //    }
+
+
 
 }
 

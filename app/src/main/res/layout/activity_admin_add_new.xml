@@ -47,7 +47,7 @@
                     android:gravity="center"/>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -83,6 +83,18 @@
                                 android:hint="Enter Fbx class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/monday" />
+                            <EditText
+                                android:id="@+id/monday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/monday_seats"
+                                android:layout_toLeftOf="@+id/cb_monday"
+                                android:hint="Enter Fbx class Time 2"
+                                android:focusable="false"
+                                android:layout_below="@+id/monday" />
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -103,6 +115,18 @@
                                 android:layout_above="@+id/monday_seats"
                                 android:layout_toLeftOf="@+id/cb_monday"
                                 android:hint="Enter WTB class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/monday" />
+                            <EditText
+                                android:id="@+id/monday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/monday_seats"
+                                android:layout_toLeftOf="@+id/cb_monday"
+                                android:hint="Enter WTB class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/monday" />
                             <EditText
@@ -152,7 +176,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -188,6 +212,18 @@
                                 android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/tuesday" />
+                            <EditText
+                                android:id="@+id/tuesday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/tuesday_seats"
+                                android:layout_toLeftOf="@+id/cb_tuesday"
+                                android:hint="Enter FBX class Time 2"
+                                android:focusable="false"
+                                android:layout_below="@+id/tuesday" />
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -208,6 +244,18 @@
                                 android:layout_above="@+id/tuesday_seats"
                                 android:layout_toLeftOf="@+id/cb_tuesday"
                                 android:hint="Enter WTB class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/tuesday" />
+                            <EditText
+                                android:id="@+id/tuesday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/tuesday_seats"
+                                android:layout_toLeftOf="@+id/cb_tuesday"
+                                android:hint="Enter WTB class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/tuesday" />
                             <EditText
@@ -257,7 +305,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -294,6 +342,18 @@
                                 android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/wednesday" />
+                            <EditText
+                                android:id="@+id/wednesday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/wednesday_seats"
+                                android:layout_toLeftOf="@+id/cb_wednesday"
+                                android:hint="Enter FBX class Time 2"
+                                android:focusable="false"
+                                android:layout_below="@+id/wednesday" />
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -314,6 +374,18 @@
                                 android:layout_above="@+id/wednesday_seats"
                                 android:layout_toLeftOf="@+id/cb_wednesday"
                                 android:hint="Enter WTB class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/wednesday" />
+                            <EditText
+                                android:id="@+id/wednesday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/wednesday_seats"
+                                android:layout_toLeftOf="@+id/cb_wednesday"
+                                android:hint="Enter WTB class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/wednesday" />
                             <EditText
@@ -362,7 +434,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -398,6 +470,18 @@
                                 android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/thursday" />
+                            <EditText
+                                android:id="@+id/thursday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/thursday_seats"
+                                android:layout_toLeftOf="@+id/cb_thursday"
+                                android:hint="Enter FBX class Time 2"
+                                android:focusable="false"
+                                android:layout_below="@+id/thursday" />
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -418,6 +502,18 @@
                                 android:layout_above="@+id/thursday_seats"
                                 android:layout_toLeftOf="@+id/cb_thursday"
                                 android:hint="Enter Wbx class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/thursday" />
+                            <EditText
+                                android:id="@+id/thursday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/thursday_seats"
+                                android:layout_toLeftOf="@+id/cb_thursday"
+                                android:hint="Enter Wbx class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/thursday" />
                             <EditText
@@ -466,7 +562,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -502,6 +598,18 @@
                                 android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/friday" />
+                            <EditText
+                                android:id="@+id/friday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/friday_seats"
+                                android:layout_toLeftOf="@+id/cb_friday"
+                                android:hint="Enter FBX class Time 2"
+                                android:focusable="false"
+                                android:layout_below="@+id/friday" />
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -522,6 +630,18 @@
                                 android:layout_above="@+id/friday_seats"
                                 android:layout_toLeftOf="@+id/cb_friday"
                                 android:hint="Enter WTB class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/friday" />
+                            <EditText
+                                android:id="@+id/friday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/friday_seats"
+                                android:layout_toLeftOf="@+id/cb_friday"
+                                android:hint="Enter WTB class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/friday" />
                             <EditText
@@ -570,7 +690,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -603,7 +723,19 @@
                                 android:layout_marginRight="@dimen/_20sdp"
                                 android:layout_above="@+id/saturday_seats"
                                 android:layout_toLeftOf="@+id/cb_saturday"
-                                android:hint="Enter class Time"
+                                android:hint="Enter FBX class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/saturday" />
+                            <EditText
+                                android:id="@+id/saturday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/saturday_seats"
+                                android:layout_toLeftOf="@+id/cb_saturday"
+                                android:hint="Enter FBX class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/saturday" />
 
@@ -626,6 +758,18 @@
                                 android:layout_above="@+id/saturday_seats"
                                 android:layout_toLeftOf="@+id/cb_saturday"
                                 android:hint="Enter Wbx class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/saturday" />
+                            <EditText
+                                android:id="@+id/saturday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/saturday_seats"
+                                android:layout_toLeftOf="@+id/cb_saturday"
+                                android:hint="Enter Wbx class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/saturday" />
                             <EditText
@@ -674,7 +818,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220sdp"
+                    android:layout_height="@dimen/_290sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
@@ -710,6 +854,18 @@
                                 android:hint="Enter FBX class Time"
                                 android:focusable="false"
                                 android:layout_below="@+id/sunday" />
+                            <EditText
+                                android:id="@+id/sunday_time_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/sunday_seats"
+                                android:layout_toLeftOf="@+id/cb_sunday"
+                                android:hint="Enter FBX class Time 2"
+                                android:focusable="false"
+                                android:layout_below="@+id/sunday" />
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -730,6 +886,18 @@
                                 android:layout_above="@+id/sunday_seats"
                                 android:layout_toLeftOf="@+id/cb_sunday"
                                 android:hint="Enter WTB class Time"
+                                android:focusable="false"
+                                android:layout_below="@+id/sunday" />
+                            <EditText
+                                android:id="@+id/sunday_time_wbx_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_20sdp"
+                                android:layout_above="@+id/sunday_seats"
+                                android:layout_toLeftOf="@+id/cb_sunday"
+                                android:hint="Enter WTB class Time 2"
                                 android:focusable="false"
                                 android:layout_below="@+id/sunday" />
                             <EditText
